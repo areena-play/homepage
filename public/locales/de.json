@@ -1,0 +1,147 @@
+{
+  "meta": {
+    "title": "AREENA — Gaming-Plattform der nächsten Generation",
+    "description": "AREENA ist die führende Plattform für kompetitives Gaming, die Turniere, Communities und Creator weltweit stärkt."
+  },
+  "nav": {
+    "home": "Startseite",
+    "project": "Projekt",
+    "features": "Funktionen",
+    "team": "Team",
+    "status": "Systemstatus",
+    "contact": "Kontakt",
+    "privacy": "Datenschutz",
+    "impressum": "Impressum",
+    "getStarted": "AREENA Starten"
+  },
+  "hero": {
+    "badge": "⚡ Die Zukunft des kompetitiven Gamings",
+    "title": "Bringe dein Spiel auf das nächste Level in der AREENA",
+    "subtitle": "Das allumfassende Esports-Ökosystem für Turniere, Matchmaking, Community-Ligen und Gaming-Erlebnisse der nächsten Generation.",
+    "ctaPrimary": "Plattform Entdecken",
+    "ctaSecondary": "Team Kennenlernen",
+    "stat1Number": "100k+",
+    "stat1Label": "Aktive Spieler",
+    "stat2Number": "2'500+",
+    "stat2Label": "Veranstaltete Turniere",
+    "stat3Number": "99.9%",
+    "stat3Label": "Plattform-Verfügbarkeit",
+    "stat4Number": "40+",
+    "stat4Label": "Globale Spieletitel"
+  },
+  "status": {
+    "badge": "LIVE-TELEMETRIE",
+    "title": "Plattform-Zustand & Server-Status",
+    "subtitle": "Echtzeit-Dienstmetriken und Betriebsbereitschaft, 24/7 überwacht via Uptime Kuma.",
+    "viewStatusPage": "Vollständige Statusseite ansehen ↗",
+    "operational": "Betriebsbereit",
+    "homepage": "AREENA Plattform",
+    "api": "Dev API",
+    "devSite": "Dev-Umgebung",
+    "logs": "Telemetrie & Logs"
+  },
+  "project": {
+    "badge": "ÜBER DAS PROJEKT",
+    "title": "Wir revolutionieren, wie Gamer spielen und interagieren",
+    "description": "AREENA entstand mit einer klaren Vision: die Barrieren zwischen gelegentlichem Multiplayer, lokalen Community-Turnieren und professionellem E-Sport abzubauen. Wir verbinden Echtzeit-Telemetrie, automatisiertes Matchmaking, dynamische Turnierbäume und fortschrittlichen Anti-Cheat-Schutz in einer modernen, webbasierten Plattform.",
+    "pillar1Title": "Echtzeit-Telemetrie & Statistiken",
+    "pillar1Desc": "Tiefgehende Spielanalysen, Live-Tracking und Spielerleistungsdaten über Latenz-optimierte Event-Pipelines.",
+    "pillar2Title": "Automatisierte Turniere",
+    "pillar2Desc": "Direkte Generierung von Single-Elimination-, Double-Elimination-, Swiss- und Round-Robin-Turnierbäumen ohne manuellen Aufwand.",
+    "pillar3Title": "Fairplay & Anti-Cheat",
+    "pillar3Desc": "Proaktive serverseitige Validierung und Verhaltenstelemetrie für absolute Integrität in jedem Match.",
+    "pillar4Title": "Creator & Community Hubs",
+    "pillar4Desc": "Anpassbare Team-Bereiche, Club-Ranglisten, automatische Preisverteilung und nahtlose Streaming-Integration."
+  },
+  "features": {
+    "badge": "KERNPLATTFORM",
+    "title": "Entwickelt für Spitzenleistung",
+    "feat1Title": "Blitzschnelles Matchmaking",
+    "feat1Desc": "Intelligentes fähigkeitsbasiertes Matchmaking (SBMM) und latenoptimiertes Routing verbinden Spieler in Sekundenschnelle.",
+    "feat2Title": "Plattformübergreifendes Ökosystem",
+    "feat2Desc": "Auf modernsten offenen Webstandards aufgebaut, zugänglich über moderne Desktop-Browser, Smartphones und native Clients.",
+    "feat3Title": "Globale Preispools & Treuhand",
+    "feat3Desc": "Sichere, automatisierte Auszahlungspipelines für Preisgelder garantieren eine schnelle und transparente Verteilung an die Gewinner.",
+    "feat4Title": "Entwickler-API & Webhooks",
+    "feat4Desc": "Erweiterbare SDKs und Webhook-Trigger ermöglichen es Entwicklerstudios und Organisatoren, AREENA direkt in Spiele einzubinden."
+  },
+  "team": {
+    "badge": "HINTER DER ARENA",
+    "title": "Das Team hinter der Vision",
+    "subtitle": "Ein interdisziplinäres Team aus Spieleentwicklern, Infrastruktur-Ingenieuren, E-Sport-Veteranen und Produktdesignern.",
+    "member1Role": "Mitgründer & Chief Executive Officer",
+    "member1Bio": "Ehemaliger E-Sport-Athlet und Tech-Gründer mit über 10 Jahren Erfahrung im Skalieren von Gaming-Plattformen.",
+    "member2Role": "Mitgründer & Chief Technology Officer",
+    "member2Bio": "Spezialist für hochperformante Netzwerkarchitekturen, Echtzeit-Streaming und latenzkritische Infrastruktur.",
+    "member3Role": "Leiterin Produkt & Design",
+    "member3Bio": "Preisgekrönte UX-Architektin mit Fokus auf intuitive Benutzerführung und dynamische Interfaces.",
+    "member4Role": "Leiter E-Sport & Community",
+    "member4Bio": "Turnierdirektor mit umfassender Erfahrung in der Organisation kontinentaler Meisterschaften und Ligensysteme."
+  },
+  "contact": {
+    "badge": "KONTAKT AUFNEHMEN",
+    "title": "Lass uns die Zukunft gemeinsam gestalten",
+    "subtitle": "Haben Sie Fragen, Partnerschaftsideen oder Feedback? Senden Sie uns eine Nachricht – unser Team meldet sich umgehend.",
+    "nameLabel": "Ihr Name",
+    "namePlaceholder": "z.B. Alex Morgan",
+    "emailLabel": "E-Mail-Adresse",
+    "emailPlaceholder": "alex@beispiel.ch",
+    "subjectLabel": "Betreff",
+    "subjectPlaceholder": "Partnerschaft, Turnier oder allgemeine Anfrage",
+    "messageLabel": "Nachricht",
+    "messagePlaceholder": "Erzählen Sie uns von Ihrem Anliegen...",
+    "submitBtn": "Nachricht Senden",
+    "sendingBtn": "Wird gesendet...",
+    "successMsg": "Vielen Dank! Ihre Nachricht ist eingegangen. Wir werden uns in Kürze bei Ihnen melden.",
+    "infoTitle": "Direkter Kontakt",
+    "emailDirect": "kontakt@areena.play",
+    "location": "Zürich, Schweiz",
+    "hours": "Mo - Fr, 09:00 - 18:00 MEZ"
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "breadcrumb": "Startseite / Datenschutzerklärung",
+    "lastUpdated": "Zuletzt aktualisiert: September 2026",
+    "section1Title": "1. Übersicht & Verantwortliche Stelle",
+    "section1Text": "AREENA ('wir', 'uns') schützt Ihre Privatsphäre und verarbeitet Ihre personenbezogenen Daten gemäss dem Schweizer Datenschutzgesetz (DSG) sowie der EU-DSGVO.",
+    "section2Title": "2. Erfasste Informationen",
+    "section2Text": "Wir erfassen Kontodaten, Spielstatistiken (Matchverlauf, Ränge), Kommunikationsverläufe bei Supportanfragen und technische Protokolldaten (IP-Adresse, Browsertyp) zur Gewährleistung der Plattformintegrität.",
+    "section3Title": "3. Verwendung Ihrer Daten",
+    "section3Text": "Ihre Daten werden ausschliesslich für Matchmaking, Turnierabwicklung, Betrugsprävention, wichtige Service-Updates und Plattformoptimierung genutzt.",
+    "section4Title": "4. Speicherdauer & Ihre Rechte",
+    "section4Text": "Sie haben das Recht auf Auskunft, Berichtigung, Datenübertragbarkeit oder Löschung Ihrer Daten. Wenden Sie sich an privacy@areena.play."
+  },
+  "impressum": {
+    "title": "Impressum / Rechtliche Hinweise",
+    "breadcrumb": "Startseite / Impressum",
+    "companyName": "AREENA Gaming Technologies AG",
+    "address": "Musterstrasse 42, 8001 Zürich, Schweiz",
+    "registration": "Handelsregister: Kanton Zürich (CHE-123.456.789)",
+    "vat": "Mehrwertsteuer-Nummer: CHE-123.456.789 MWST",
+    "repTitle": "Vertretungsberechtigte Personen:",
+    "representatives": "Dominic Sonderegger (Geschäftsführer)",
+    "disclaimerTitle": "Haftungsausschluss",
+    "disclaimerText": "Die Inhalte unserer Seiten wurden mit grösster Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Für verlinkte externe Inhalte schliessen wir jede Haftung aus.",
+    "copyrightTitle": "Urheberrecht",
+    "copyrightText": "Alle Layout-Elemente, Markenzeichen und proprietären Medien auf dieser Website sind urheberrechtlich geschützt."
+  },
+  "footer": {
+    "tagline": "Das führende Ökosystem für kompetitives Gaming.",
+    "quickLinks": "Schnellzugriff",
+    "legal": "Rechtliches",
+    "copyright": "© 2026 AREENA. Alle Rechte vorbehalten."
+  },
+  "notFound": {
+    "title": "404 — Seite Nicht Gefunden",
+    "badge": "404 FEHLER",
+    "heading": "In der Arena verirrt?",
+    "description": "Die gesuchte Seite wurde möglicherweise verschoben, umbenannt oder ist vorübergehend nicht verfügbar.",
+    "backHome": "Zurück zur Startseite"
+  },
+  "theme": {
+    "toggle": "Design umschalten",
+    "light": "Heller Modus",
+    "dark": "Dunkler Modus"
+  }
+}
+

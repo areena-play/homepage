@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AREENA is the premier next-generation competitive gaming platform empowering communities, tournaments, and creators worldwide.">
+  <meta name="theme-color" content="#0a0d14">
+  <title>AREENA — Next-Generation Competitive Gaming Platform</title>
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" href="/favicon.ico">
+  
+  <!-- Inline Zero-Flash Theme & Language Initializer -->
+  <script>
+    (function() {
+      try {
+        var savedTheme = localStorage.getItem('areena_theme');
+        var theme = savedTheme || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.classList.add('preload');
+
+        var params = new URLSearchParams(window.location.search);
+        var langParam = params.get('lang');
+        var supported = ['en', 'de', 'fr', 'it'];
+        var savedLang = localStorage.getItem('areena_lang');
+        var browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
+        var lang = (langParam && supported.includes(langParam.toLowerCase())) ? langParam.toLowerCase()
+                 : (savedLang && supported.includes(savedLang)) ? savedLang
+                 : (supported.includes(browserLang)) ? browserLang : 'en';
+
+        document.documentElement.lang = lang;
+        if (lang !== 'en') {
+          document.documentElement.classList.add('i18n-loading');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="#home" class="brand-logo" aria-label="AREENA Homepage">
+        <!-- Dark Theme Logo (White text for dark background) -->
+        <img src="/assets/areena-logo-dark.png" alt="AREENA Logo" class="logo-dark-theme">
+        <!-- Light Theme Logo (Black text for light background) -->
+        <img src="/assets/areena-logo.png" alt="AREENA Logo" class="logo-light-theme">
+      </a>
+
+      <!-- Navigation Links -->
+      <nav>
+        <ul class="nav-links" id="nav-links">
+          <li class="nav-item"><a href="#home" class="active" data-i18n="nav.home">Home</a></li>
+          <li class="nav-item"><a href="#project" data-i18n="nav.project">Project</a></li>
+          <li class="nav-item"><a href="#features" data-i18n="nav.features">Features</a></li>
+          <li class="nav-item"><a href="#team" data-i18n="nav.team">Team</a></li>
+          <li class="nav-item"><a href="#status" data-i18n="nav.status">Status</a></li>
+          <li class="nav-item"><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav Actions & Controls -->
+      <div class="nav-actions">
+        <!-- Theme Toggle (Light / Dark) -->
+        <button class="theme-btn" id="theme-toggle" aria-label="Toggle Theme" title="Toggle Theme">🌙</button>
+
+        <!-- Language Switcher -->
+        <div class="lang-selector">
+          <button class="lang-btn" id="lang-btn" aria-label="Change Language" aria-haspopup="true">
+            <span id="current-lang-label">🇬🇧 EN</span>
+            <span style="font-size: 0.7rem; opacity: 0.7;">▼</span>
+          </button>
+          <ul class="lang-dropdown" id="lang-dropdown">
+            <li class="lang-option active" data-lang="en">🇬🇧 English</li>
+            <li class="lang-option" data-lang="de">🇩🇪 Deutsch</li>
+            <li class="lang-option" data-lang="fr">🇫🇷 Français</li>
+            <li class="lang-option" data-lang="it">🇮🇹 Italiano</li>
+          </ul>
+        </div>
+
+        <a href="#project" class="btn btn-primary" data-i18n="nav.getStarted">Launch AREENA</a>
+        
+        <!-- Mobile Menu Toggle Button -->
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Navigation Menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="section hero-section" id="home">
+    <div class="container hero-content">
+      <div class="section-badge" data-i18n="hero.badge">⚡ The Future of Competitive Gaming</div>
+      <h1 class="hero-title">
+        <span data-i18n="hero.title">Elevate Your Game in the Modern</span>
+        <span class="gradient-text">AREENA</span>
+      </h1>
+      <p class="hero-subtitle" data-i18n="hero.subtitle">
+        The all-in-one esports ecosystem built for tournaments, matchmaking, community leagues, and next-gen gaming experiences.
+      </p>
+      
+      <div class="hero-cta">
+        <a href="#project" class="btn btn-primary" data-i18n="hero.ctaPrimary">Explore Platform</a>
+        <a href="#team" class="btn btn-secondary" data-i18n="hero.ctaSecondary">Meet the Team</a>
+      </div>
+
+      <!-- Live Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" data-i18n="hero.stat1Number">100k+</div>
+          <div class="stat-label" data-i18n="hero.stat1Label">Active Players</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-i18n="hero.stat2Number">2,500+</div>
+          <div class="stat-label" data-i18n="hero.stat2Label">Tournaments Hosted</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-i18n="hero.stat3Number">99.9%</div>
+          <div class="stat-label" data-i18n="hero.stat3Label">Platform Uptime</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-i18n="hero.stat4Number">40+</div>
+          <div class="stat-label" data-i18n="hero.stat4Label">Global Titles</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Status Section (Uptime Kuma Badges) -->
+  <section class="section status-section" id="status">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge" data-i18n="status.badge">LIVE TELEMETRY</div>
+        <h2 class="section-title" data-i18n="status.title">Platform Health & Service Status</h2>
+        <p class="section-subtitle" data-i18n="status.subtitle">
+          Real-time service metrics and operational status monitored 24/7 via Uptime Kuma.
+        </p>
+      </div>
+
+      <div class="status-grid">
+        <!-- Service 1: AREENA Homepage / Platform -->
+        <div class="status-card">
+          <div class="status-card-header">
+            <div class="status-service-name" data-i18n="status.homepage">AREENA Platform</div>
+            <div class="status-indicator-group">
+              <span class="status-dot"></span>
+              <span style="font-size: 0.8rem; font-weight: 600; color: var(--status-up);" data-i18n="status.operational">Operational</span>
+            </div>
+          </div>
+          <div class="status-badge-container">
+            <img src="https://status.areena.ch/api/badge/1/status" alt="AREENA Platform Status">
+            <img src="https://status.areena.ch/api/badge/1/uptime" alt="AREENA Platform Uptime">
+          </div>
+        </div>
+
+        <!-- Service 2: AREENA Dev API -->
+        <div class="status-card">
+          <div class="status-card-header">
+            <div class="status-service-name" data-i18n="status.api">Dev API</div>
+            <div class="status-indicator-group">
+              <span class="status-dot"></span>
+              <span style="font-size: 0.8rem; font-weight: 600; color: var(--status-up);" data-i18n="status.operational">Operational</span>
+            </div>
+          </div>
+          <div class="status-badge-container">
+            <img src="https://status.areena.ch/api/badge/3/status" alt="AREENA Dev API Status">
+            <img src="https://status.areena.ch/api/badge/3/uptime" alt="AREENA Dev API Uptime">
+          </div>
+        </div>
+
+        <!-- Service 3: AREENA Dev Site -->
+        <div class="status-card">
+          <div class="status-card-header">
+            <div class="status-service-name" data-i18n="status.devSite">Dev Environment</div>
+            <div class="status-indicator-group">
+              <span class="status-dot"></span>
+              <span style="font-size: 0.8rem; font-weight: 600; color: var(--status-up);" data-i18n="status.operational">Operational</span>
+            </div>
+          </div>
+          <div class="status-badge-container">
+            <img src="https://status.areena.ch/api/badge/2/status" alt="AREENA Dev Site Status">
+            <img src="https://status.areena.ch/api/badge/2/uptime" alt="AREENA Dev Site Uptime">
+          </div>
+        </div>
+
+        <!-- Service 4: AREENA Logs -->
+        <div class="status-card">
+          <div class="status-card-header">
+            <div class="status-service-name" data-i18n="status.logs">Telemetry & Logs</div>
+            <div class="status-indicator-group">
+              <span class="status-dot"></span>
+              <span style="font-size: 0.8rem; font-weight: 600; color: var(--status-up);" data-i18n="status.operational">Operational</span>
+            </div>
+          </div>
+          <div class="status-badge-container">
+            <img src="https://status.areena.ch/api/badge/4/status" alt="AREENA Logs Status">
+            <img src="https://status.areena.ch/api/badge/4/uptime" alt="AREENA Logs Uptime">
+          </div>
+        </div>
+      </div>
+
+      <div class="status-footer-cta">
+        <a href="https://status.areena.ch" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" data-i18n="status.viewStatusPage">
+          View Full Status Page ↗
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Project Section -->
+  <section class="section" id="project">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge" data-i18n="project.badge">ABOUT THE PROJECT</div>
+        <h2 class="section-title" data-i18n="project.title">Revolutionizing How Gamers Compete and Connect</h2>
+        <p class="section-subtitle" data-i18n="project.description">
+          AREENA was conceived with a clear vision: to dismantle the friction between casual multiplayer, grassroots tournaments, and tier-one professional esports.
+        </p>
+      </div>
+
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="card-icon">📊</div>
+          <h3 class="card-title" data-i18n="project.pillar1Title">Real-Time Telemetry & Stats</h3>
+          <p class="card-desc" data-i18n="project.pillar1Desc">Deep in-game analytics, real-time match tracking, and player performance metrics powered by low-latency event pipelines.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="card-icon">🏆</div>
+          <h3 class="card-title" data-i18n="project.pillar2Title">Automated Tournaments</h3>
+          <p class="card-desc" data-i18n="project.pillar2Desc">Instant single-elimination, double-elimination, Swiss-system, and round-robin bracket generation with zero manual overhead.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="card-icon">🛡️</div>
+          <h3 class="card-title" data-i18n="project.pillar3Title">Fair Play & Anti-Cheat</h3>
+          <p class="card-desc" data-i18n="project.pillar3Desc">Proactive server-side validation and behavioral telemetry to ensure high-integrity competitive play across every match.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="card-icon">🌐</div>
+          <h3 class="card-title" data-i18n="project.pillar4Title">Creator & Community Hubs</h3>
+          <p class="card-desc" data-i18n="project.pillar4Desc">Customizable team hubs, club leaderboards, automated prize distribution, and seamless streaming integrations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section" id="features" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge" data-i18n="features.badge">CORE PLATFORM</div>
+        <h2 class="section-title" data-i18n="features.title">Engineered for Peak Performance</h2>
+      </div>
+
+      <div class="features-grid">
+        <div class="pillar-card">
+          <div class="card-icon">⚡</div>
+          <h3 class="card-title" data-i18n="features.feat1Title">Lightning-Fast Matchmaking</h3>
+          <p class="card-desc" data-i18n="features.feat1Desc">Smart skill-based matchmaking (SBMM) and latency-optimized routing connect players with optimal opponents in seconds.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="card-icon">💻</div>
+          <h3 class="card-title" data-i18n="features.feat2Title">Cross-Platform Ecosystem</h3>
+          <p class="card-desc" data-i18n="features.feat2Desc">Built using cutting-edge open web standards, accessible from modern desktop browsers, mobile devices, and native clients.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="card-icon">🔒</div>
+          <h3 class="card-title" data-i18n="features.feat3Title">Global Prize Pools & Escrow</h3>
+          <p class="card-desc" data-i18n="features.feat3Desc">Secure, automated tournament prize payout pipelines guaranteeing fast, transparent distribution to winners.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="card-icon">🔌</div>
+          <h3 class="card-title" data-i18n="features.feat4Title">Developer API & Webhooks</h3>
+          <p class="card-desc" data-i18n="features.feat4Desc">Extensible SDKs and webhook triggers allowing game studios and community organizers to embed AREENA into custom games.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="section" id="team">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge" data-i18n="team.badge">BEHIND THE ARENA</div>
+        <h2 class="section-title" data-i18n="team.title">Meet the Builders & Visionaries</h2>
+        <p class="section-subtitle" data-i18n="team.subtitle">
+          A multidisciplinary team of game developers, infrastructure engineers, esports veterans, and product designers.
+        </p>
+      </div>
+
+      <div class="team-grid">
+        <!-- Team Member 1 -->
+        <div class="team-card">
+          <div class="team-avatar">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="50" fill="#1e293b"/>
+              <circle cx="50" cy="38" r="20" fill="#00f2fe"/>
+              <path d="M 20 85 C 20 65, 80 65, 80 85 Z" fill="#00f2fe"/>
+            </svg>
+          </div>
+          <h3 class="team-name">Dominic Sonderegger</h3>
+          <div class="team-role" data-i18n="team.member1Role">Co-Founder & Chief Executive Officer</div>
+          <p class="team-bio" data-i18n="team.member1Bio">Former esports athlete and tech founder with 10+ years scaling gaming platforms and distributed systems.</p>
+          <div class="team-socials">
+            <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+            <a href="#" class="social-link" aria-label="GitHub">gh</a>
+            <a href="#" class="social-link" aria-label="X">𝕏</a>
+          </div>
+        </div>
+
+        <!-- Team Member 2 -->
+        <div class="team-card">
+          <div class="team-avatar">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="50" fill="#1e293b"/>
+              <circle cx="50" cy="38" r="20" fill="#4facfe"/>
+              <path d="M 20 85 C 20 65, 80 65, 80 85 Z" fill="#4facfe"/>
+            </svg>
+          </div>
+          <h3 class="team-name">Elena Rossi</h3>
+          <div class="team-role" data-i18n="team.member2Role">Co-Founder & Chief Technology Officer</div>
+          <p class="team-bio" data-i18n="team.member2Bio">Specialist in high-throughput network architectures, real-time streaming, and low-latency infrastructure.</p>
+          <div class="team-socials">
+            <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+            <a href="#" class="social-link" aria-label="GitHub">gh</a>
+            <a href="#" class="social-link" aria-label="X">𝕏</a>
+          </div>
+        </div>
+
+        <!-- Team Member 3 -->
+        <div class="team-card">
+          <div class="team-avatar">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="50" fill="#1e293b"/>
+              <circle cx="50" cy="38" r="20" fill="#8b5cf6"/>
+              <path d="M 20 85 C 20 65, 80 65, 80 85 Z" fill="#8b5cf6"/>
+            </svg>
+          </div>
+          <h3 class="team-name">Claire Dubois</h3>
+          <div class="team-role" data-i18n="team.member3Role">Head of Product & Design</div>
+          <p class="team-bio" data-i18n="team.member3Bio">Award-winning UX architect focused on frictionless user journeys and high-energy interactive interfaces.</p>
+          <div class="team-socials">
+            <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+            <a href="#" class="social-link" aria-label="Dribbble">dr</a>
+            <a href="#" class="social-link" aria-label="X">𝕏</a>
+          </div>
+        </div>
+
+        <!-- Team Member 4 -->
+        <div class="team-card">
+          <div class="team-avatar">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="50" fill="#1e293b"/>
+              <circle cx="50" cy="38" r="20" fill="#ec4899"/>
+              <path d="M 20 85 C 20 65, 80 65, 80 85 Z" fill="#ec4899"/>
+            </svg>
+          </div>
+          <h3 class="team-name">Maximilian Weber</h3>
+          <div class="team-role" data-i18n="team.member4Role">Head of Esports & Community</div>
+          <p class="team-bio" data-i18n="team.member4Bio">Tournament director with extensive background organizing continental gaming championships and league systems.</p>
+          <div class="team-socials">
+            <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+            <a href="#" class="social-link" aria-label="Discord">dc</a>
+            <a href="#" class="social-link" aria-label="X">𝕏</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section" id="contact" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge" data-i18n="contact.badge">GET IN TOUCH</div>
+        <h2 class="section-title" data-i18n="contact.title">Let's Build the Future Together</h2>
+        <p class="section-subtitle" data-i18n="contact.subtitle">
+          Have questions, partnership inquiries, or feedback? Send us a message and our team will get back to you promptly.
+        </p>
+      </div>
+
+      <div class="contact-layout">
+        <!-- Interactive Form -->
+        <div class="contact-card">
+          <form id="contact-form">
+            <div class="form-group">
+              <label for="name" class="form-label" data-i18n="contact.nameLabel">Your Name</label>
+              <input type="text" id="name" class="form-control" data-i18n-placeholder="contact.namePlaceholder" placeholder="e.g. Alex Morgan" required>
+            </div>
+            <div class="form-group">
+              <label for="email" class="form-label" data-i18n="contact.emailLabel">Email Address</label>
+              <input type="email" id="email" class="form-control" data-i18n-placeholder="contact.emailPlaceholder" placeholder="alex@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="subject" class="form-label" data-i18n="contact.subjectLabel">Subject</label>
+              <input type="text" id="subject" class="form-control" data-i18n-placeholder="contact.subjectPlaceholder" placeholder="Partnership, Tournament, or General Inquiry" required>
+            </div>
+            <div class="form-group">
+              <label for="message" class="form-label" data-i18n="contact.messageLabel">Message</label>
+              <textarea id="message" class="form-control" data-i18n-placeholder="contact.messagePlaceholder" placeholder="Tell us about your project or inquiry..." required></textarea>
+            </div>
+            <button type="submit" id="submit-btn" class="btn btn-primary" style="width: 100%;">
+              <span data-i18n="contact.submitBtn">Send Message</span>
+            </button>
+            <div class="form-feedback" id="form-feedback"></div>
+          </form>
+        </div>
+
+        <!-- Contact Information Sidecard -->
+        <div class="contact-info-card">
+          <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;" data-i18n="contact.infoTitle">Direct Channels</h3>
+          
+          <div class="info-item">
+            <div class="info-icon">✉️</div>
+            <div class="info-details">
+              <h4>Email</h4>
+              <p data-i18n="contact.emailDirect">contact@areena.play</p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">📍</div>
+            <div class="info-details">
+              <h4>Headquarters</h4>
+              <p data-i18n="contact.location">Zurich, Switzerland</p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">🕒</div>
+            <div class="info-details">
+              <h4>Support Hours</h4>
+              <p data-i18n="contact.hours">Mon - Fri, 09:00 - 18:00 CET</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div style="font-size: 1.5rem; font-weight: 900; letter-spacing: 2px;">AREENA</div>
+          <p data-i18n="footer.tagline">The premier competitive gaming ecosystem.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-i18n="footer.quickLinks">Quick Links</h4>
+          <ul>
+            <li><a href="#home" data-i18n="nav.home">Home</a></li>
+            <li><a href="#project" data-i18n="nav.project">Project</a></li>
+            <li><a href="#features" data-i18n="nav.features">Features</a></li>
+            <li><a href="#team" data-i18n="nav.team">Team</a></li>
+            <li><a href="#status" data-i18n="nav.status">Status</a></li>
+            <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-i18n="footer.legal">Legal</h4>
+          <ul>
+            <li><a href="/privacy-policy" data-i18n="nav.privacy">Privacy Policy</a></li>
+            <li><a href="/impressum" data-i18n="nav.impressum">Impressum</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p data-i18n="footer.copyright">© 2026 AREENA. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript Scripts -->
+  <script src="/js/i18n.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

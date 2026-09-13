@@ -1,0 +1,147 @@
+{
+  "meta": {
+    "title": "AREENA — Piattaforma di Gioco Competitivo di Nuova Generazione",
+    "description": "AREENA è la piattaforma di gioco competitivo di riferimento che supporta tornei, community e creator in tutto il mondo."
+  },
+  "nav": {
+    "home": "Home",
+    "project": "Progetto",
+    "features": "Funzionalità",
+    "team": "Team",
+    "status": "Stato Sistema",
+    "contact": "Contatti",
+    "privacy": "Privacy",
+    "impressum": "Note Legali",
+    "getStarted": "Avvia AREENA"
+  },
+  "hero": {
+    "badge": "⚡ Il Futuro del Gaming Competitivo",
+    "title": "Porta il tuo gioco a un livello superiore nell'AREENA",
+    "subtitle": "L'ecosistema esports all-in-one creato per tornei, matchmaking, leghe di community ed esperienze di gioco di nuova generazione.",
+    "ctaPrimary": "Esplora la Piattaforma",
+    "ctaSecondary": "Incontra il Team",
+    "stat1Number": "100k+",
+    "stat1Label": "Giocatori Attivi",
+    "stat2Number": "2'500+",
+    "stat2Label": "Tornei Ospitati",
+    "stat3Number": "99.9%",
+    "stat3Label": "Disponibilità Server",
+    "stat4Number": "40+",
+    "stat4Label": "Titoli Globali"
+  },
+  "status": {
+    "badge": "TELEMETRIA IN TEMPO REALE",
+    "title": "Salute della Piattaforma & Stato dei Servizi",
+    "subtitle": "Metriche dei servizi in tempo reale e disponibilità operativa monitorate 24/7 tramite Uptime Kuma.",
+    "viewStatusPage": "Visualizza pagina di stato completa ↗",
+    "operational": "Operativo",
+    "homepage": "Piattaforma AREENA",
+    "api": "API Dev",
+    "devSite": "Ambiente Dev",
+    "logs": "Telemetria & Log"
+  },
+  "project": {
+    "badge": "INFORMAZIONI SUL PROGETTO",
+    "title": "Rivoluzionare il modo in cui i gamer competono e si connettono",
+    "description": "AREENA è nata con una visione chiara: abbattere le barriere tra il multiplayer casual, i tornei amatoriali e l'esport professionistico. Combiniamo telemetria in tempo reale, matchmaking automatizzato, generazione istantanea di tabelloni e sistemi anti-cheat in un'interfaccia web moderna e fluida.",
+    "pillar1Title": "Telemetria & Statistiche Live",
+    "pillar1Desc": "Analisi di gioco approfondite, monitoraggio delle partite in tempo reale e metriche di rendimento dei giocatori a bassissima latenza.",
+    "pillar2Title": "Tornei Automatizzati",
+    "pillar2Desc": "Generazione automatica di tabelloni a eliminazione diretta, doppia eliminazione, sistema svizzero e girone all'italiana senza gestione manuale.",
+    "pillar3Title": "Fair Play & Anti-Cheat",
+    "pillar3Desc": "Validazione proattiva lato server e telemetria comportamentale per garantire l'assoluta integrità di ogni match.",
+    "pillar4Title": "Hub per Creator & Community",
+    "pillar4Desc": "Spazi di squadra personalizzabili, classifiche di club, distribuzione automatica dei premi e integrazione streaming fluida."
+  },
+  "features": {
+    "badge": "PIATTAFORMA PRINCIPALE",
+    "title": "Progettato per le Massime Prestazioni",
+    "feat1Title": "Matchmaking Istantaneo",
+    "feat1Desc": "Un sistema intelligente basato sull'abilità e sulla latenza connette i giocatori con gli avversari ideali in pochi secondi.",
+    "feat2Title": "Ecosistema Multipiattaforma",
+    "feat2Desc": "Costruito sui moderni standard web aperti, fruibile da browser desktop, smartphone e client nativi.",
+    "feat3Title": "Montepremi Globali & Escrow",
+    "feat3Desc": "Sistemi automatizzati e sicuri di erogazione dei premi garantiscono distribuzioni rapide e trasparenti ai vincitori.",
+    "feat4Title": "API & Webhook per Sviluppatori",
+    "feat4Desc": "SDK estensibili che consentono a studi di sviluppo e organizzatori di integrare AREENA direttamente nei propri giochi."
+  },
+  "team": {
+    "badge": "DIETRO L'ARENA",
+    "title": "Il Team dietro la Visione",
+    "subtitle": "Un team multidisciplinare di sviluppatori di giochi, ingegneri di infrastruttura, veterani degli esports e designer di prodotto.",
+    "member1Role": "Co-Fondatore & Amministratore Delegato",
+    "member1Bio": "Ex atleta esports e fondatore tecnologico con oltre 10 anni di esperienza nella scalabilità di piattaforme gaming.",
+    "member2Role": "Co-Fondatore & Direttore Tecnologico",
+    "member2Bio": "Specialista in architetture di rete ad alta capacità, streaming in tempo reale e infrastrutture a bassa latenza.",
+    "member3Role": "Responsabile Prodotto & Design",
+    "member3Bio": "Pluripremiata UX designer focalizzata sull'esperienza utente e su interfacce dinamiche ad alto impatto.",
+    "member4Role": "Responsabile Esports & Community",
+    "member4Bio": "Direttore di tornei con vasta esperienza nell'organizzazione di campionati continentali e sistemi di leghe."
+  },
+  "contact": {
+    "badge": "CONTATTACI",
+    "title": "Costruiamo il Futuro Insieme",
+    "subtitle": "Hai domande, proposte di partnership o feedback? Inviaci un messaggio e il nostro team ti risponderà al più presto.",
+    "nameLabel": "Il tuo Nome",
+    "namePlaceholder": "es. Alex Morgan",
+    "emailLabel": "Indirizzo Email",
+    "emailPlaceholder": "alex@esempio.it",
+    "subjectLabel": "Oggetto",
+    "subjectPlaceholder": "Partnership, Torneo o Richiesta Generale",
+    "messageLabel": "Messaggio",
+    "messagePlaceholder": "Raccontaci del tuo progetto o della tua richiesta...",
+    "submitBtn": "Invia Messaggio",
+    "sendingBtn": "Invio in corso...",
+    "successMsg": "Grazie! Il tuo messaggio è stato ricevuto. Ti risponderemo a breve.",
+    "infoTitle": "Contatti Diretti",
+    "emailDirect": "contatto@areena.play",
+    "location": "Zurigo, Svizzera",
+    "hours": "Lun - Ven, 09:00 - 18:00 CET"
+  },
+  "privacy": {
+    "title": "Informativa sulla Privacy",
+    "breadcrumb": "Home / Informativa sulla Privacy",
+    "lastUpdated": "Ultimo aggiornamento: Settembre 2026",
+    "section1Title": "1. Panoramica & Titolare del Trattamento",
+    "section1Text": "AREENA ('noi', 'nostro') rispetta la tua privacy e protegge i tuoi dati personali in conformità con la Legge federale svizzera sulla protezione dei dati (LPD) e il GDPR.",
+    "section2Title": "2. Dati Raccolti",
+    "section2Text": "Raccogliamo informazioni sull'account, statistiche di gioco (cronologia match, classifiche), comunicazioni di supporto e log tecnici (indirizzo IP, browser) necessari per la sicurezza.",
+    "section3Title": "3. Utilizzo dei Dati",
+    "section3Text": "I dati sono utilizzati esclusivamente per il matchmaking, l'organizzazione dei tornei, la prevenzione dei trucchi, le comunicazioni di servizio e l'ottimizzazione della piattaforma.",
+    "section4Title": "4. Conservazione & Diritti dell'Utente",
+    "section4Text": "Hai il pieno diritto di richiedere l'accesso, la rettifica, la portabilità o la cancellazione dei tuoi dati. Scrivi a privacy@areena.play."
+  },
+  "impressum": {
+    "title": "Note Legali / Impressum",
+    "breadcrumb": "Home / Note Legali",
+    "companyName": "AREENA Gaming Technologies AG",
+    "address": "Musterstrasse 42, 8001 Zurigo, Svizzera",
+    "registration": "Registro delle Imprese: Cantone di Zurigo (CHE-123.456.789)",
+    "vat": "Partita IVA: CHE-123.456.789 MWST",
+    "repTitle": "Rappresentanti Autorizzati:",
+    "representatives": "Dominic Sonderegger (Amministratore Delegato)",
+    "disclaimerTitle": "Esclusione di Responsabilità",
+    "disclaimerText": "I contenuti del sito sono stati redatti con la massima cura. Non possiamo tuttavia garantire l'esattezza o la completezza delle informazioni. Decliniamo ogni responsabilità per i contenuti dei link esterni.",
+    "copyrightTitle": "Diritto d'Autore",
+    "copyrightText": "Tutti gli elementi visivi, marchi registrati e contenuti proprietari del sito sono protetti dalle leggi sul copyright."
+  },
+  "footer": {
+    "tagline": "L'ecosistema di riferimento per il gioco competitivo.",
+    "quickLinks": "Link Rapidi",
+    "legal": "Note Legali",
+    "copyright": "© 2026 AREENA. Tutti i diritti riservati."
+  },
+  "notFound": {
+    "title": "404 — Pagina Non Trovata",
+    "badge": "ERRORE 404",
+    "heading": "Perso nell'Arena?",
+    "description": "La pagina che stai cercando potrebbe essere stata spostata, rimossa o temporaneamente non disponibile.",
+    "backHome": "Torna alla Home"
+  },
+  "theme": {
+    "toggle": "Cambia tema",
+    "light": "Modalità Chiara",
+    "dark": "Modalità Scura"
+  }
+}
+

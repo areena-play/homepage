@@ -1,0 +1,29 @@
+{
+  "name": "areena-homepage",
+  "version": "1.0.0",
+  "description": "Clean, modern, multilingual homepage for AREENA served via Node.js",
+  "main": "server.js",
+  "bin": {
+    "areena-homepage": "./bin/serve.js",
+    "areena-serve": "./bin/serve.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node test/server.test.js"
+  },
+  "keywords": [
+    "areena",
+    "homepage",
+    "multilingual",
+    "static-server",
+    "website"
+  ],
+  "author": "AREENA Team",
+  "license": "MIT",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "express": "^4.19.2"
+  }
+}
+
