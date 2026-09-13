@@ -10,31 +10,8 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="alternate icon" href="/favicon.ico">
   
-  <!-- Inline Zero-Flash Theme & Language Initializer -->
-  <script>
-    (function() {
-      try {
-        var savedTheme = localStorage.getItem('areena_theme');
-        var theme = savedTheme || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-        document.documentElement.setAttribute('data-theme', theme);
-        document.documentElement.classList.add('preload');
-
-        var params = new URLSearchParams(window.location.search);
-        var langParam = params.get('lang');
-        var supported = ['en', 'de', 'fr', 'it'];
-        var savedLang = localStorage.getItem('areena_lang');
-        var browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
-        var lang = (langParam && supported.includes(langParam.toLowerCase())) ? langParam.toLowerCase()
-                 : (savedLang && supported.includes(savedLang)) ? savedLang
-                 : (supported.includes(browserLang)) ? browserLang : 'en';
-
-        document.documentElement.lang = lang;
-        if (lang !== 'en') {
-          document.documentElement.classList.add('i18n-loading');
-        }
-      } catch (e) {}
-    })();
-  </script>
+  <!-- Reusable Zero-Flash Theme & Language Initializer Component -->
+  <component name="head-init"></component>
 
   <link rel="stylesheet" href="/css/styles.css">
   <style>
@@ -182,12 +159,34 @@
       border: 1px solid #10b981;
       color: #a7f3d0;
     }
+    .admin-table-container {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
     .form-row-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1.25rem;
     }
     @media (max-width: 768px) {
+      .admin-container {
+        margin: 2rem auto 4rem auto;
+        padding: 0 1rem;
+      }
+      .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      .admin-card {
+        padding: 1.5rem 1.25rem;
+      }
+      .toggle-switch-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
       .form-row-2 {
         grid-template-columns: 1fr;
       }

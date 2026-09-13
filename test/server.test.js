@@ -193,14 +193,49 @@ async function runTests() {
     assert.ok(publicRestoredRes.data.includes('/admin'));
     console.log('  ✅ Maintenance Mode deactivated: Public site is live (200) with /admin footer link');
 
-    // 10. Dedicated Pages & 404 checks
+    // 10. Dedicated Pages, 404 checks & Reusable Component Injection
     const impressumRes = await makeRequest('/impressum');
     assert.strictEqual(impressumRes.statusCode, 200);
+    assert.ok(impressumRes.data.includes('id="site-navbar"'), 'Navbar component must be injected into subpages');
+    assert.ok(impressumRes.data.includes('id="site-footer"'), 'Footer component must be injected into subpages');
+    assert.ok(impressumRes.data.includes('href="/#partners"'), 'Subpages must prefix hash links with /');
+
+    assert.ok(publicRestoredRes.data.includes('id="site-navbar"'), 'Navbar component must be injected into home page');
+    assert.ok(publicRestoredRes.data.includes('id="site-footer"'), 'Footer component must be injected into home page');
+    assert.ok(publicRestoredRes.data.includes('href="#partners"'), 'Home page links must not have / prefix');
+
     const privacyRes = await makeRequest('/privacy-policy');
     assert.strictEqual(privacyRes.statusCode, 200);
+    assert.ok(privacyRes.data.includes('id="site-navbar"'));
+    assert.ok(privacyRes.data.includes('id="site-footer"'));
+
     const notFoundRes = await makeRequest('/some-missing-page');
     assert.strictEqual(notFoundRes.statusCode, 404);
-    console.log('  ✅ Dedicated Impressum, Privacy Policy, and 404 routes function as expected');
+    assert.ok(notFoundRes.data.includes('id="site-navbar"'));
+    assert.ok(notFoundRes.data.includes('id="site-footer"'));
+
+    // Verify Head Initializer component injection
+    assert.ok(publicRestoredRes.data.includes('areena_theme'), 'head-init component must be injected into home page');
+    assert.ok(impressumRes.data.includes('areena_theme'), 'head-init component must be injected into subpages');
+    assert.ok(privacyRes.data.includes('areena_theme'));
+    assert.ok(notFoundRes.data.includes('areena_theme'));
+    console.log('  ✅ Reusable components (Navbar, Footer, and Zero-Flash Head-Init) rendered seamlessly across all routes');
+
+    // 12. Verify Comprehensive Privacy Policy and Locale Consistency
+    assert.ok(privacyRes.data.includes('data-i18n="privacy.section12Title"'), 'Privacy policy must contain Section 12');
+    assert.ok(privacyRes.data.includes('data-i18n="privacy.right8"'), 'Privacy policy must contain data subject rights list');
+    assert.ok(privacyRes.data.includes('data-i18n="privacy.cat7Title"'), 'Privacy policy must contain data categories');
+
+    const locales = ['en', 'de', 'fr', 'it'];
+    for (const lang of locales) {
+      const locPath = path.join(__dirname, `../public/locales/${lang}.json`);
+      const locData = JSON.parse(fs.readFileSync(locPath, 'utf8'));
+      assert.ok(locData.privacy, `Locale ${lang} must have privacy section`);
+      assert.ok(locData.privacy.section12Text, `Locale ${lang} must have privacy.section12Text`);
+      assert.ok(locData.privacy.right8, `Locale ${lang} must have privacy.right8`);
+      assert.ok(locData.privacy.cat7Text, `Locale ${lang} must have privacy.cat7Text`);
+    }
+    console.log('  ✅ Comprehensive Privacy Policy (FADP / GDPR) and Multilingual Locales (EN, DE, FR, IT) fully verified');
 
     console.log('\n✨ All test suites passed successfully!\n');
     server.close(() => {

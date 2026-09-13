@@ -10,80 +10,15 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="alternate icon" href="/favicon.ico">
   
-  <!-- Inline Zero-Flash Theme & Language Initializer -->
-  <script>
-    (function() {
-      try {
-        var savedTheme = localStorage.getItem('areena_theme');
-        var theme = savedTheme || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-        document.documentElement.setAttribute('data-theme', theme);
-        document.documentElement.classList.add('preload');
-
-        var params = new URLSearchParams(window.location.search);
-        var langParam = params.get('lang');
-        var supported = ['en', 'de', 'fr', 'it'];
-        var savedLang = localStorage.getItem('areena_lang');
-        var browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
-        var lang = (langParam && supported.includes(langParam.toLowerCase())) ? langParam.toLowerCase()
-                 : (savedLang && supported.includes(savedLang)) ? savedLang
-                 : (supported.includes(browserLang)) ? browserLang : 'en';
-
-        document.documentElement.lang = lang;
-        if (lang !== 'en') {
-          document.documentElement.classList.add('i18n-loading');
-        }
-      } catch (e) {}
-    })();
-  </script>
+  <!-- Reusable Zero-Flash Theme & Language Initializer Component -->
+  <component name="head-init"></component>
 
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 
-  <!-- Navigation Bar -->
-  <header class="navbar">
-    <div class="container nav-container">
-      <a href="/" class="brand-logo" aria-label="AREENA Homepage">
-        <!-- Dark Theme Logo (White text for dark background) -->
-        <img src="/assets/areena-logo-dark.png" alt="AREENA Logo" class="logo-dark-theme">
-        <!-- Light Theme Logo (Black text for light background) -->
-        <img src="/assets/areena-logo.png" alt="AREENA Logo" class="logo-light-theme">
-      </a>
-
-      <nav>
-        <ul class="nav-links" id="nav-links">
-          <li class="nav-item"><a href="/#home" data-i18n="nav.home">Home</a></li>
-          <li class="nav-item"><a href="/#project" data-i18n="nav.project">Project</a></li>
-          <li class="nav-item"><a href="/#features" data-i18n="nav.features">Features</a></li>
-          <li class="nav-item"><a href="/#partners" data-i18n="nav.partners">Partners</a></li>
-          <li class="nav-item"><a href="/#team" data-i18n="nav.team">Team</a></li>
-          <li class="nav-item"><a href="/#status" data-i18n="nav.status">Status</a></li>
-          <li class="nav-item"><a href="/#contact" data-i18n="nav.contact">Contact</a></li>
-        </ul>
-      </nav>
-
-      <div class="nav-actions">
-        <!-- Theme Toggle -->
-        <button class="theme-btn" id="theme-toggle" aria-label="Toggle Theme" title="Toggle Theme">🌙</button>
-
-        <!-- Language Switcher -->
-        <div class="lang-selector">
-          <button class="lang-btn" id="lang-btn" aria-label="Change Language" aria-haspopup="true">
-            <span id="current-lang-label">🇬🇧 EN</span>
-            <span style="font-size: 0.7rem; opacity: 0.7;">▼</span>
-          </button>
-          <ul class="lang-dropdown" id="lang-dropdown">
-            <li class="lang-option active" data-lang="en">🇬🇧 English</li>
-            <li class="lang-option" data-lang="de">🇩🇪 Deutsch</li>
-            <li class="lang-option" data-lang="fr">🇫🇷 Français</li>
-            <li class="lang-option" data-lang="it">🇮🇹 Italiano</li>
-          </ul>
-        </div>
-        
-        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Navigation Menu">☰</button>
-      </div>
-    </div>
-  </header>
+  <!-- Reusable Navigation Bar Component -->
+  <component name="navbar"></component>
 
   <!-- Page Main Content -->
   <main class="page-container">
@@ -117,45 +52,8 @@
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div style="font-size: 1.5rem; font-weight: 900; letter-spacing: 2px;">AREENA</div>
-          <p data-i18n="footer.tagline">The premier competitive gaming ecosystem.</p>
-        </div>
-
-        <div class="footer-col">
-          <h4 data-i18n="footer.quickLinks">Quick Links</h4>
-          <ul>
-            <li><a href="/#home" data-i18n="nav.home">Home</a></li>
-            <li><a href="/#project" data-i18n="nav.project">Project</a></li>
-            <li><a href="/#features" data-i18n="nav.features">Features</a></li>
-            <li><a href="/#team" data-i18n="nav.team">Team</a></li>
-            <li><a href="/#status" data-i18n="nav.status">Status</a></li>
-            <li><a href="/#contact" data-i18n="nav.contact">Contact</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4 data-i18n="footer.legal">Legal</h4>
-          <ul>
-            <li><a href="/privacy-policy" data-i18n="nav.privacy">Privacy Policy</a></li>
-            <li><a href="/impressum" data-i18n="nav.impressum">Impressum</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <p>
-          <span data-i18n="footer.copyright">© 2026 AREENA. All rights reserved.</span>
-          <span style="margin: 0 0.5rem; opacity: 0.4;">•</span>
-          <a href="/admin" style="color: var(--text-muted); font-size: 0.85rem;">⚡ Admin Panel</a>
-        </p>
-      </div>
-    </div>
-  </footer>
+  <!-- Reusable Footer Component -->
+  <component name="footer"></component>
 
   <script src="/js/i18n.js"></script>
   <script src="/js/app.js"></script>

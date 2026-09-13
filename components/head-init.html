@@ -1,0 +1,26 @@
+<!-- Inline Zero-Flash Theme & Language Initializer Component -->
+<script>
+  (function() {
+    try {
+      var savedTheme = localStorage.getItem('areena_theme');
+      var theme = savedTheme || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+      document.documentElement.classList.add('preload');
+
+      var params = new URLSearchParams(window.location.search);
+      var langParam = params.get('lang');
+      var supported = ['en', 'de', 'fr', 'it'];
+      var savedLang = localStorage.getItem('areena_lang');
+      var browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
+      var lang = (langParam && supported.includes(langParam.toLowerCase())) ? langParam.toLowerCase()
+               : (savedLang && supported.includes(savedLang)) ? savedLang
+               : (supported.includes(browserLang)) ? browserLang : 'en';
+
+      document.documentElement.lang = lang;
+      if (lang !== 'en') {
+        document.documentElement.classList.add('i18n-loading');
+      }
+    } catch (e) {}
+  })();
+</script>
+

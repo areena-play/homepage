@@ -21,6 +21,7 @@ const {
 } = require('./lib/db');
 const { sendContactMessage, sendMailgunEmail } = require('./lib/mail');
 const { verifyTurnstileToken } = require('./lib/turnstile');
+const { renderPage } = require('./lib/components');
 
 function createServer(options = {}) {
   const app = express();
@@ -270,12 +271,12 @@ function createServer(options = {}) {
 
   // Admin Dashboard (Always accessible)
   app.get(['/admin', '/admin.html'], (req, res) => {
-    res.sendFile(path.join(publicDir, 'admin.html'));
+    res.type('html').send(renderPage(path.join(publicDir, 'admin.html'), { isSubpage: true }));
   });
 
   // Explicit Maintenance Page
   app.get(['/maintenance', '/maintenance.html'], (req, res) => {
-    res.sendFile(path.join(publicDir, 'maintenance.html'));
+    res.type('html').send(renderPage(path.join(publicDir, 'maintenance.html'), { isSubpage: true }));
   });
 
   // Maintenance Mode Guard for Public Routes
@@ -283,27 +284,27 @@ function createServer(options = {}) {
     const isMaintenance = getMaintenanceMode();
     if (isMaintenance && !req.user) {
       // Return maintenance page for public visitors during maintenance
-      return res.status(503).sendFile(path.join(publicDir, 'maintenance.html'));
+      return res.status(503).type('html').send(renderPage(path.join(publicDir, 'maintenance.html'), { isSubpage: true }));
     }
     next();
   });
 
   // Dedicated Pages
   app.get(['/', '/index.html'], (req, res) => {
-    res.sendFile(path.join(publicDir, 'index.html'));
+    res.type('html').send(renderPage(path.join(publicDir, 'index.html'), { isSubpage: false }));
   });
 
   app.get('/impressum', (req, res) => {
-    res.sendFile(path.join(publicDir, 'impressum.html'));
+    res.type('html').send(renderPage(path.join(publicDir, 'impressum.html'), { isSubpage: true }));
   });
 
   app.get(['/privacy-policy', '/privacy'], (req, res) => {
-    res.sendFile(path.join(publicDir, 'privacy-policy.html'));
+    res.type('html').send(renderPage(path.join(publicDir, 'privacy-policy.html'), { isSubpage: true }));
   });
 
   // 404 Fallback
   app.use((req, res) => {
-    res.status(404).sendFile(path.join(publicDir, '404.html'));
+    res.status(404).type('html').send(renderPage(path.join(publicDir, '404.html'), { isSubpage: true }));
   });
 
   return app;
