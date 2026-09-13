@@ -343,7 +343,8 @@ function startServer(port) {
   return server;
 }
 
-if (require.main === module) {
+// Automatically start server when executed directly OR when loaded by Phusion Passenger in Plesk
+if (typeof PhusionPassenger !== 'undefined' || require.main === module) {
   startServer();
 }
 
