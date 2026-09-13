@@ -39,7 +39,7 @@
     "subtitle": "Echtzeit-Servicemetriken und Betriebsstatus rund um die Uhr überwacht via Uptime Kuma.",
     "viewStatusPage": "Vollständige Statusseite anzeigen ↗",
     "operational": "Betriebsbereit",
-    "homepage": "AREENA Plattform",
+    "homepage": "AREENA Homepage",
     "api": "Dev API",
     "devSite": "Dev Umgebung",
     "logs": "Telemetrie & Logs"
@@ -105,6 +105,7 @@
     "heroBadge": "SWISS TABLE TENNIS TRANSFORMATION",
     "heroTitle": "Die digitale Zukunft von",
     "heroSubtitle": "Advanced Resources and Event Engine for Next-Gen Associations — Wir digitalisieren den Schweizer Tischtennissport ganzheitlich und schaffen durch technologische Exzellenz einen nachhaltigen Mehrwert für alle Akteure.",
+    "officialWebsiteLink": "swisstabletennis.ch besuchen ↗",
     "visionTitle": "Vision Statement",
     "visionStatement": "«AREENA: Von Spielern für Spieler. Wir digitalisieren den Schweizer Tischtennissport ganzheitlich und schaffen durch technologische Exzellenz einen nachhaltigen Mehrwert für alle Akteure – vom Nachwuchsspieler bis zum Vorstand.»",
     "ctaExplore": "MVP Funktionen entdecken",
@@ -125,6 +126,14 @@
     "compBadge": "STATUS QUO & HANDLUNGSBEDARF",
     "compTitle": "Vergleich: Aktuelle Situation vs. AREENA",
     "compSubtitle": "In einer digitalisierten Welt bedeutet Stillstand einen strategischen Rückschritt.",
+    "compTopic1": "1. Evolution & Zukunft",
+    "compHead1": "Stagnation Click-TT vs. Schweizer Innovation",
+    "compTopic2": "2. Benutzererlebnis (UI/UX)",
+    "compHead2": "Veraltetes UI/UX vs. Modernes responsives Interface",
+    "compTopic3": "3. Verwaltung & Prozesse",
+    "compHead3": "Manuelle Prozesse vs. Durchgehende Automatisierung",
+    "compTopic4": "4. Datenarchitektur",
+    "compHead4": "Datensilos vs. Offene «API-First» Architektur",
     "thStatusQuo": "Status Quo",
     "thRisk": "Strategisches Risiko",
     "thSolution": "Lösung durch AREENA",
@@ -284,7 +293,7 @@
     "copyrightText": "Alle Layout-Elemente, Markenzeichen und proprietären Medien auf dieser Website sind urheberrechtlich geschützt."
   },
   "footer": {
-    "tagline": "Das führende Ökosystem für Sportverbände & Gaming.",
+    "tagline": "Die einheitliche digitale Plattform für moderne Sportverbände und Vereine.",
     "quickLinks": "Schnellzugriff",
     "legal": "Rechtliches & Externes",
     "copyright": "© 2026 AREENA. Alle Rechte vorbehalten."

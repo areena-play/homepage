@@ -39,7 +39,7 @@
     "subtitle": "Real-time service metrics and operational status monitored 24/7 via Uptime Kuma.",
     "viewStatusPage": "View Full Status Page ↗",
     "operational": "Operational",
-    "homepage": "AREENA Platform",
+    "homepage": "AREENA Homepage",
     "api": "Dev API",
     "devSite": "Dev Environment",
     "logs": "Telemetry & Logs"
@@ -105,6 +105,7 @@
     "heroBadge": "SWISS TABLE TENNIS TRANSFORMATION",
     "heroTitle": "The Digital Future of",
     "heroSubtitle": "Advanced Resources and Event Engine for Next-Gen Associations — We are holistically digitizing Swiss table tennis and creating sustainable value for all stakeholders through technological excellence.",
+    "officialWebsiteLink": "Visit swisstabletennis.ch ↗",
     "visionTitle": "Vision Statement",
     "visionStatement": "«AREENA: By players, for players. We digitize Swiss table tennis holistically and create sustainable value for all stakeholders through technological excellence — from junior players to the federation board.»",
     "ctaExplore": "Explore MVP Features",
@@ -125,6 +126,14 @@
     "compBadge": "STATUS QUO & ACTION NEEDED",
     "compTitle": "Comparison: Current Situation vs. AREENA",
     "compSubtitle": "In a digitized world, standing still is a strategic step backward.",
+    "compTopic1": "1. Evolution & Future",
+    "compHead1": "Click-TT Stagnation vs. Swiss Innovation",
+    "compTopic2": "2. User Experience",
+    "compHead2": "Outdated UI/UX vs. Modern Responsive Interface",
+    "compTopic3": "3. Administration & Workflows",
+    "compHead3": "Manual Overhead vs. End-to-End Automation",
+    "compTopic4": "4. Data Architecture",
+    "compHead4": "Isolated Data Silos vs. Open «API-First» Ecosystem",
     "thStatusQuo": "Status Quo",
     "thRisk": "Strategic Risk",
     "thSolution": "AREENA Solution",
@@ -284,7 +293,7 @@
     "copyrightText": "All layout elements, brand trademarks, and proprietary media on this site are protected by copyright law."
   },
   "footer": {
-    "tagline": "The premier competitive gaming & sports ecosystem.",
+    "tagline": "The unified digital platform for modern sports associations and federations.",
     "quickLinks": "Quick Links",
     "legal": "Legal & External",
     "copyright": "© 2026 AREENA. All rights reserved."

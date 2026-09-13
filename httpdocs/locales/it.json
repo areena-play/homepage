@@ -39,7 +39,7 @@
     "subtitle": "Metriche in tempo reale e disponibilità operativa monitorate 24/7 tramite Uptime Kuma.",
     "viewStatusPage": "Visualizza Pagina Completa di Stato ↗",
     "operational": "Operativo",
-    "homepage": "Piattaforma AREENA",
+    "homepage": "AREENA Homepage",
     "api": "API Dev",
     "devSite": "Ambiente Dev",
     "logs": "Telemetria & Logs"
@@ -105,6 +105,7 @@
     "heroBadge": "TRASFORMAZIONE SWISS TABLE TENNIS",
     "heroTitle": "Il Futuro Digitale di",
     "heroSubtitle": "Advanced Resources and Event Engine for Next-Gen Associations — Digitalizziamo integralmente il tennistavolo svizzero e creiamo un valore duraturo per tutti gli attori attraverso l'eccellenza tecnologica.",
+    "officialWebsiteLink": "Visita swisstabletennis.ch ↗",
     "visionTitle": "Dichiarazione di Visione",
     "visionStatement": "«AREENA: Dai giocatori, per i giocatori. Digitalizziamo il tennistavolo svizzero in modo olistico e creiamo un valore sostenibile per tutti gli attori attraverso l'eccellenza tecnologica – dal giovane atleta al consiglio direttivo.»",
     "ctaExplore": "Scopri le Funzioni del MVP",
@@ -125,6 +126,14 @@
     "compBadge": "STATO ATTUALE & NECESSITÀ DI AZIONE",
     "compTitle": "Confronto: Situazione Attuale vs. AREENA",
     "compSubtitle": "In un mondo digitalizzato, restare fermi equivale a un arretramento strategico.",
+    "compTopic1": "1. Evoluzione & Futuro",
+    "compHead1": "Stagnazione Click-TT vs. Innovazione Svizzera",
+    "compTopic2": "2. Esperienza Utente (UI/UX)",
+    "compHead2": "Interfaccia Obsoleta vs. Design Moderno e Reattivo",
+    "compTopic3": "3. Gestione & Flussi di Lavoro",
+    "compHead3": "Lavoro Manuale vs. Automazione Completa",
+    "compTopic4": "4. Architettura dei Dati",
+    "compHead4": "Silos di Dati vs. Ecosistema «API-First» Aperto",
     "thStatusQuo": "Stato Attuale",
     "thRisk": "Rischio Strategico",
     "thSolution": "Soluzione AREENA",
@@ -284,7 +293,7 @@
     "copyrightText": "Tutti gli elementi visivi, marchi registrati e contenuti proprietari del sito sono protetti dalle leggi sul copyright."
   },
   "footer": {
-    "tagline": "L'ecosistema di riferimento per federazioni sportive & gaming.",
+    "tagline": "La piattaforma digitale unificata per federazioni sportive e club moderni.",
     "quickLinks": "Link Rapidi",
     "legal": "Note Legali & Link Esterni",
     "copyright": "© 2026 AREENA. Tutti i diritti riservati."
