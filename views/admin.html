@@ -99,14 +99,14 @@
       font-weight: 700;
     }
     .status-pill.active {
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid #f59e0b;
-      color: #fbbf24;
+      background: var(--color-warning-bg);
+      border: 1px solid var(--color-warning-border);
+      color: var(--color-warning-text);
     }
     .status-pill.inactive {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid #10b981;
-      color: #a7f3d0;
+      background: var(--color-success-bg);
+      border: 1px solid var(--color-success-border);
+      color: var(--color-success-text);
     }
     /* Users Table */
     .admin-table {
@@ -121,16 +121,16 @@
       font-size: 0.925rem;
     }
     .admin-table th {
-      color: var(--text-muted);
-      font-weight: 600;
+      color: var(--text-secondary);
+      font-weight: 700;
       font-size: 0.825rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     .btn-danger {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #f87171;
+      background: var(--color-error-bg);
+      border: 1px solid var(--color-error-border);
+      color: var(--color-error-text);
       padding: 0.4rem 0.85rem;
       border-radius: var(--radius-sm);
       font-size: 0.825rem;
@@ -141,23 +141,25 @@
     .btn-danger:hover {
       background: #ef4444;
       color: #ffffff;
+      border-color: #ef4444;
     }
     .toast-msg {
       padding: 0.85rem 1.25rem;
       border-radius: var(--radius-sm);
       margin-bottom: 1.25rem;
-      font-size: 0.9rem;
+      font-size: 0.925rem;
+      font-weight: 500;
       display: none;
     }
     .toast-error {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid #ef4444;
-      color: #fca5a5;
+      background: var(--color-error-bg);
+      border: 1px solid var(--color-error-border);
+      color: var(--color-error-text);
     }
     .toast-success {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid #10b981;
-      color: #a7f3d0;
+      background: var(--color-success-bg);
+      border: 1px solid var(--color-success-border);
+      color: var(--color-success-text);
     }
     .admin-table-container {
       width: 100%;

@@ -158,30 +158,33 @@ document.addEventListener('DOMContentLoaded', async () => {
         const result = await res.json();
 
         if (res.ok) {
+          formFeedback.className = 'form-feedback success';
           formFeedback.style.display = 'block';
-          formFeedback.style.backgroundColor = 'rgba(16, 185, 129, 0.15)';
-          formFeedback.style.borderColor = '#10b981';
-          formFeedback.style.color = '#a7f3d0';
+          formFeedback.style.backgroundColor = '';
+          formFeedback.style.borderColor = '';
+          formFeedback.style.color = '';
           formFeedback.textContent = curDict?.contact?.successMsg || 'Thank you! Your message has been received.';
           contactForm.reset();
           if (window.turnstile && turnstileWidgetId !== null) {
             window.turnstile.reset(turnstileWidgetId);
           }
         } else {
+          formFeedback.className = 'form-feedback error';
           formFeedback.style.display = 'block';
-          formFeedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
-          formFeedback.style.borderColor = '#ef4444';
-          formFeedback.style.color = '#fca5a5';
+          formFeedback.style.backgroundColor = '';
+          formFeedback.style.borderColor = '';
+          formFeedback.style.color = '';
           formFeedback.textContent = result.error || 'Failed to send message. Please try again.';
           if (window.turnstile && turnstileWidgetId !== null) {
             window.turnstile.reset(turnstileWidgetId);
           }
         }
       } catch (err) {
+        formFeedback.className = 'form-feedback error';
         formFeedback.style.display = 'block';
-        formFeedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
-        formFeedback.style.borderColor = '#ef4444';
-        formFeedback.style.color = '#fca5a5';
+        formFeedback.style.backgroundColor = '';
+        formFeedback.style.borderColor = '';
+        formFeedback.style.color = '';
         formFeedback.textContent = 'Network error while sending message. Please try again.';
       } finally {
         if (submitText) submitText.textContent = originalText;

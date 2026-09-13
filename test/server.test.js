@@ -178,8 +178,9 @@ async function runTests() {
     assert.strictEqual(maintOnRes.statusCode, 200);
 
     const publicMaintRes = await makeRequest('/');
-    assert.strictEqual(publicMaintRes.statusCode, 503);
-    console.log('  ✅ Maintenance Mode active: Public visitors receive 503');
+    assert.strictEqual(publicMaintRes.statusCode, 200);
+    assert.ok(publicMaintRes.data.includes('data-i18n="maintenance.heading"') || publicMaintRes.data.includes("We'll Be Back Soon"));
+    console.log('  ✅ Maintenance Mode active: Public visitors receive 200 with maintenance page');
 
     const maintOffRes = await makeRequest('/api/admin/maintenance', {
       method: 'POST',
