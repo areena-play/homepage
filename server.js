@@ -25,7 +25,7 @@ const { renderPage } = require('./lib/components');
 
 function createServer(options = {}) {
   const app = express();
-  const publicDir = options.publicDir || path.join(__dirname, 'public');
+  const publicDir = options.publicDir || (require('fs').existsSync(path.join(__dirname, 'httpdocs')) ? path.join(__dirname, 'httpdocs') : path.join(__dirname, 'public'));
   const viewsDir = options.viewsDir || (require('fs').existsSync(path.join(__dirname, 'views')) ? path.join(__dirname, 'views') : publicDir);
 
   // Gzip / Brotli compression

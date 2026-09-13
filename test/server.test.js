@@ -227,8 +227,9 @@ async function runTests() {
     assert.ok(privacyRes.data.includes('data-i18n="privacy.cat7Title"'), 'Privacy policy must contain data categories');
 
     const locales = ['en', 'de', 'fr', 'it'];
+    const baseLocDir = fs.existsSync(path.join(__dirname, '../httpdocs/locales')) ? path.join(__dirname, '../httpdocs/locales') : path.join(__dirname, '../public/locales');
     for (const lang of locales) {
-      const locPath = path.join(__dirname, `../public/locales/${lang}.json`);
+      const locPath = path.join(baseLocDir, `${lang}.json`);
       const locData = JSON.parse(fs.readFileSync(locPath, 'utf8'));
       assert.ok(locData.privacy, `Locale ${lang} must have privacy section`);
       assert.ok(locData.privacy.section12Text, `Locale ${lang} must have privacy.section12Text`);
