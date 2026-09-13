@@ -22,8 +22,9 @@
   "author": "AREENA Team",
   "license": "MIT",
   "dependencies": {
+    "better-sqlite3": "^9.6.0",
     "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
     "express": "^4.19.2"
   }
 }
-

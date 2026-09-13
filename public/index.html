@@ -384,6 +384,12 @@
         <!-- Interactive Form -->
         <div class="contact-card">
           <form id="contact-form">
+            <!-- Anti-Spam Honeypot (Hidden from human visitors) -->
+            <div style="display:none !important;" aria-hidden="true">
+              <label for="hp-website">Leave this field empty</label>
+              <input type="text" name="_hp_website" id="hp-website" tabindex="-1" autocomplete="off">
+            </div>
+
             <div class="form-group">
               <label for="name" class="form-label" data-i18n="contact.nameLabel">Your Name</label>
               <input type="text" id="name" class="form-control" data-i18n-placeholder="contact.namePlaceholder" placeholder="e.g. Alex Morgan" required>
@@ -400,6 +406,10 @@
               <label for="message" class="form-label" data-i18n="contact.messageLabel">Message</label>
               <textarea id="message" class="form-control" data-i18n-placeholder="contact.messagePlaceholder" placeholder="Tell us about your project or inquiry..." required></textarea>
             </div>
+
+            <!-- Cloudflare Turnstile Container -->
+            <div id="turnstile-container" style="margin-bottom: 1.25rem; display: none; justify-content: center;"></div>
+
             <button type="submit" id="submit-btn" class="btn btn-primary" style="width: 100%;">
               <span data-i18n="contact.submitBtn">Send Message</span>
             </button>
@@ -470,7 +480,11 @@
       </div>
 
       <div class="footer-bottom">
-        <p data-i18n="footer.copyright">© 2026 AREENA. All rights reserved.</p>
+        <p>
+          <span data-i18n="footer.copyright">© 2026 AREENA. All rights reserved.</span>
+          <span style="margin: 0 0.5rem; opacity: 0.4;">•</span>
+          <a href="/admin" style="color: var(--text-muted); font-size: 0.85rem;">⚡ Admin Panel</a>
+        </p>
       </div>
     </div>
   </footer>

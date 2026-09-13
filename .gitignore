@@ -12,6 +12,11 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # Runtime data
+data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
 pids
 *.pid
 *.seed

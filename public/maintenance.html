@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Under Scheduled Maintenance — AREENA">
+  <meta name="theme-color" content="#0a0d14">
+  <title>Under Scheduled Maintenance — AREENA</title>
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" href="/favicon.ico">
+  
+  <!-- Inline Zero-Flash Theme & Language Initializer -->
+  <script>
+    (function() {
+      try {
+        var savedTheme = localStorage.getItem('areena_theme');
+        var theme = savedTheme || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.classList.add('preload');
+
+        var params = new URLSearchParams(window.location.search);
+        var langParam = params.get('lang');
+        var supported = ['en', 'de', 'fr', 'it'];
+        var savedLang = localStorage.getItem('areena_lang');
+        var browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
+        var lang = (langParam && supported.includes(langParam.toLowerCase())) ? langParam.toLowerCase()
+                 : (savedLang && supported.includes(savedLang)) ? savedLang
+                 : (supported.includes(browserLang)) ? browserLang : 'en';
+
+        document.documentElement.lang = lang;
+        if (lang !== 'en') {
+          document.documentElement.classList.add('i18n-loading');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .maintenance-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+    .maintenance-topbar {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .maintenance-logo {
+      height: 64px;
+      margin-bottom: 2.5rem;
+    }
+    .maintenance-logo img {
+      height: 100%;
+      width: auto;
+      object-fit: contain;
+    }
+    .maintenance-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg);
+      padding: 3.5rem 2.5rem;
+      max-width: 640px;
+      width: 100%;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), var(--accent-glow);
+    }
+    .pulse-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.4rem 1rem;
+      border-radius: var(--radius-full);
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #fbbf24;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 1.75rem;
+    }
+    .pulse-dot-amber {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #f59e0b;
+      box-shadow: 0 0 10px #f59e0b;
+      animation: pulse-dot 1.5s infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="maintenance-topbar">
+    <!-- Theme Toggle -->
+    <button class="theme-btn" id="theme-toggle" aria-label="Toggle Theme" title="Toggle Theme">🌙</button>
+
+    <!-- Language Selector -->
+    <div class="lang-selector">
+      <button class="lang-btn" id="lang-btn" aria-label="Change Language" aria-haspopup="true">
+        <span id="current-lang-label">🇬🇧 EN</span>
+        <span style="font-size: 0.7rem; opacity: 0.7;">▼</span>
+      </button>
+      <ul class="lang-dropdown" id="lang-dropdown">
+        <li class="lang-option active" data-lang="en">🇬🇧 English</li>
+        <li class="lang-option" data-lang="de">🇩🇪 Deutsch</li>
+        <li class="lang-option" data-lang="fr">🇫🇷 Français</li>
+        <li class="lang-option" data-lang="it">🇮🇹 Italiano</li>
+      </ul>
+    </div>
+  </div>
+
+  <main class="maintenance-wrapper">
+    <div class="maintenance-logo">
+      <img src="/assets/areena-logo-dark.png" alt="AREENA Logo" class="logo-dark-theme">
+      <img src="/assets/areena-logo.png" alt="AREENA Logo" class="logo-light-theme">
+    </div>
+
+    <div class="maintenance-card">
+      <div class="pulse-badge">
+        <span class="pulse-dot-amber"></span>
+        <span data-i18n="maintenance.badge">MAINTENANCE MODE</span>
+      </div>
+
+      <h1 class="gradient-text" style="font-size: 2.25rem; margin-bottom: 1rem;" data-i18n="maintenance.heading">We'll Be Back Soon</h1>
+      <p style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; margin-bottom: 2rem;" data-i18n="maintenance.message">
+        AREENA is currently undergoing scheduled platform upgrades and optimizations. We are working hard to bring you the next-generation experience.
+      </p>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 1.25rem;">
+        <a href="https://status.areena.ch" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" data-i18n="maintenance.checkStatus">
+          Check Live System Status ↗
+        </a>
+      </div>
+    </div>
+
+    <div style="margin-top: 3rem; font-size: 0.85rem; color: var(--text-muted);">
+      <span>© 2026 AREENA.</span> • <a href="/admin" style="color: var(--text-muted); text-decoration: underline;" data-i18n="maintenance.adminLogin">Admin Login</a>
+    </div>
+  </main>
+
+  <script src="/js/i18n.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
+

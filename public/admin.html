@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AREENA Admin Control Panel">
+  <meta name="theme-color" content="#0a0d14">
+  <title>Admin Control Panel — AREENA</title>
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" href="/favicon.ico">
+  
+  <!-- Inline Zero-Flash Theme & Language Initializer -->
+  <script>
+    (function() {
+      try {
+        var savedTheme = localStorage.getItem('areena_theme');
+        var theme = savedTheme || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.classList.add('preload');
+
+        var params = new URLSearchParams(window.location.search);
+        var langParam = params.get('lang');
+        var supported = ['en', 'de', 'fr', 'it'];
+        var savedLang = localStorage.getItem('areena_lang');
+        var browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
+        var lang = (langParam && supported.includes(langParam.toLowerCase())) ? langParam.toLowerCase()
+                 : (savedLang && supported.includes(savedLang)) ? savedLang
+                 : (supported.includes(browserLang)) ? browserLang : 'en';
+
+        document.documentElement.lang = lang;
+        if (lang !== 'en') {
+          document.documentElement.classList.add('i18n-loading');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .admin-container {
+      max-width: 1080px;
+      margin: 3rem auto 6rem auto;
+      padding: 0 1.5rem;
+    }
+    .admin-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1.5rem;
+    }
+    .admin-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 2.5rem;
+    }
+    .admin-auth-card {
+      max-width: 480px;
+      margin: 4rem auto;
+      padding: 3rem 2.5rem;
+    }
+    .toggle-switch-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      margin-top: 1.5rem;
+    }
+    /* Switch component */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 32px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #475569;
+      transition: var(--transition-normal);
+      border-radius: 34px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 24px;
+      width: 24px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: var(--transition-normal);
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #f59e0b;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+    }
+    input:checked + .slider:before {
+      transform: translateX(28px);
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .status-pill.active {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid #f59e0b;
+      color: #fbbf24;
+    }
+    .status-pill.inactive {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid #10b981;
+      color: #a7f3d0;
+    }
+    /* Users Table */
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+    }
+    .admin-table th, .admin-table td {
+      padding: 1rem 1.25rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.925rem;
+    }
+    .admin-table th {
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.825rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+      padding: 0.4rem 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.825rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .btn-danger:hover {
+      background: #ef4444;
+      color: #ffffff;
+    }
+    .toast-msg {
+      padding: 0.85rem 1.25rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.25rem;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .toast-error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+    }
+    .toast-success {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid #10b981;
+      color: #a7f3d0;
+    }
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    @media (max-width: 768px) {
+      .form-row-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="/" class="brand-logo" aria-label="AREENA Homepage">
+        <img src="/assets/areena-logo-dark.png" alt="AREENA Logo" class="logo-dark-theme">
+        <img src="/assets/areena-logo.png" alt="AREENA Logo" class="logo-light-theme">
+      </a>
+
+      <div class="nav-actions">
+        <a href="/" class="btn btn-secondary" style="padding: 0.45rem 0.9rem; font-size: 0.85rem;" data-i18n="admin.backToSite">← Return to Website</a>
+
+        <!-- Theme Toggle -->
+        <button class="theme-btn" id="theme-toggle" aria-label="Toggle Theme" title="Toggle Theme">🌙</button>
+
+        <!-- Language Switcher -->
+        <div class="lang-selector">
+          <button class="lang-btn" id="lang-btn" aria-label="Change Language" aria-haspopup="true">
+            <span id="current-lang-label">🇬🇧 EN</span>
+            <span style="font-size: 0.7rem; opacity: 0.7;">▼</span>
+          </button>
+          <ul class="lang-dropdown" id="lang-dropdown">
+            <li class="lang-option active" data-lang="en">🇬🇧 English</li>
+            <li class="lang-option" data-lang="de">🇩🇪 Deutsch</li>
+            <li class="lang-option" data-lang="fr">🇫🇷 Français</li>
+            <li class="lang-option" data-lang="it">🇮🇹 Italiano</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-container">
+    
+    <!-- View 1: First Time Setup View -->
+    <div id="setup-view" style="display: none;">
+      <div class="admin-card admin-auth-card">
+        <div class="section-badge" data-i18n="admin.setupTitle">FIRST-TIME ADMIN SETUP</div>
+        <h1 style="font-size: 1.85rem; margin-bottom: 0.5rem;" data-i18n="admin.setupTitle">First-Time Admin Setup</h1>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem;" data-i18n="admin.setupSubtitle">
+          No administrator accounts detected. Please configure your primary admin credentials to initialize the platform.
+        </p>
+
+        <div id="setup-error" class="toast-msg toast-error"></div>
+        <div id="setup-success" class="toast-msg toast-success"></div>
+
+        <form id="setup-form">
+          <div class="form-group">
+            <label class="form-label" for="setup-username" data-i18n="admin.username">Username</label>
+            <input type="text" id="setup-username" class="form-control" required minlength="3" placeholder="admin">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="setup-email" data-i18n="admin.email">Email Address</label>
+            <input type="email" id="setup-email" class="form-control" required placeholder="admin@areena.play">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="setup-password" data-i18n="admin.password">Password</label>
+            <input type="password" id="setup-password" class="form-control" required minlength="6" placeholder="••••••••">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="setup-confirm-password" data-i18n="admin.confirmPassword">Confirm Password</label>
+            <input type="password" id="setup-confirm-password" class="form-control" required minlength="6" placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" data-i18n="admin.setupBtn">
+            Initialize Platform
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- View 2: Login View -->
+    <div id="login-view" style="display: none;">
+      <div class="admin-card admin-auth-card">
+        <div class="section-badge" data-i18n="admin.loginTitle">ADMIN AUTHENTICATION</div>
+        <h1 style="font-size: 1.85rem; margin-bottom: 0.5rem;" data-i18n="admin.loginTitle">Admin Authentication</h1>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem;" data-i18n="admin.loginSubtitle">
+          Enter your credentials to access the AREENA control panel.
+        </p>
+
+        <div id="login-error" class="toast-msg toast-error"></div>
+
+        <form id="login-form">
+          <div class="form-group">
+            <label class="form-label" for="login-identifier" data-i18n="admin.username">Username or Email</label>
+            <input type="text" id="login-identifier" class="form-control" required placeholder="admin or email">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="login-password" data-i18n="admin.password">Password</label>
+            <input type="password" id="login-password" class="form-control" required placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" data-i18n="admin.loginBtn">
+            Sign In
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- View 3: Authenticated Dashboard -->
+    <div id="dashboard-view" style="display: none;">
+      <div class="admin-header">
+        <div>
+          <div class="section-badge" data-i18n="admin.dashboard">DASHBOARD</div>
+          <h1 class="gradient-text" style="font-size: 2.5rem;" data-i18n="admin.title">Admin Control Panel</h1>
+          <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.25rem;">
+            Logged in as: <strong id="admin-user-display" style="color: var(--accent-cyan);"></strong>
+          </p>
+        </div>
+        <button id="logout-btn" class="btn btn-secondary" style="padding: 0.6rem 1.25rem;" data-i18n="admin.logout">Logout</button>
+      </div>
+
+      <div id="dashboard-toast" class="toast-msg toast-success"></div>
+      <div id="dashboard-error" class="toast-msg toast-error"></div>
+
+      <!-- Maintenance Mode Section -->
+      <div class="admin-card">
+        <h2 style="font-size: 1.4rem; margin-bottom: 0.5rem;" data-i18n="admin.maintenanceToggle">Maintenance Mode</h2>
+        <p style="color: var(--text-secondary); font-size: 0.95rem;" data-i18n="admin.maintenanceDesc">
+          When active, all public visitors will only see the maintenance screen.
+        </p>
+
+        <div class="toggle-switch-wrapper">
+          <div>
+            <div id="maintenance-pill" class="status-pill inactive">
+              <span class="status-dot"></span>
+              <span id="maintenance-status-text" data-i18n="admin.maintenanceStatusInactive">Maintenance is INACTIVE</span>
+            </div>
+          </div>
+          <label class="switch" aria-label="Toggle Maintenance Mode">
+            <input type="checkbox" id="maintenance-toggle-switch">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Mailgun Email Configuration Section -->
+      <div class="admin-card">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+          <div>
+            <h2 style="font-size: 1.4rem; margin-bottom: 0.25rem;">📬 Mailgun & Contact Form Settings</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+              Configure your Mailgun API keys to deliver messages submitted through the website's contact form.
+            </p>
+          </div>
+        </div>
+
+        <form id="email-settings-form">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="mg-api-key">Mailgun API Key</label>
+              <input type="password" id="mg-api-key" class="form-control" placeholder="key-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+              <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 0.25rem;">Found in Mailgun Dashboard → API Security</small>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mg-domain">Mailgun Domain</label>
+              <input type="text" id="mg-domain" class="form-control" placeholder="mg.areena.ch or areena.ch">
+              <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 0.25rem;">Your verified sending domain</small>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="mg-recipient">Contact Form Recipient Email</label>
+              <input type="email" id="mg-recipient" class="form-control" placeholder="contact@areena.ch" value="contact@areena.ch" required>
+              <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 0.25rem;">Where contact form inquiries will be delivered (default: contact@areena.ch)</small>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mg-region">Mailgun Region</label>
+              <select id="mg-region" class="form-control" style="cursor: pointer;">
+                <option value="US">United States (api.mailgun.net)</option>
+                <option value="EU">Europe (api.eu.mailgun.net)</option>
+              </select>
+              <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 0.25rem;">Region where your Mailgun domain is hosted</small>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1rem;">
+            <button type="button" id="test-email-btn" class="btn btn-secondary" style="padding: 0.65rem 1.25rem; font-size: 0.9rem;">
+              Send Test Email 📨
+            </button>
+            <button type="submit" class="btn btn-primary" style="padding: 0.65rem 1.5rem; font-size: 0.9rem;">
+              Save Email Settings
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Cloudflare Turnstile Anti-Spam Section -->
+      <div class="admin-card">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+          <div>
+            <h2 style="font-size: 1.4rem; margin-bottom: 0.25rem;">🛡️ Cloudflare Turnstile Anti-Spam</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+              Protect the contact form from automated spam bots using Cloudflare Turnstile (honeypot protection is always active).
+            </p>
+          </div>
+          <a href="https://dash.cloudflare.com/?to=/:account/turnstile" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.4rem 0.85rem;">
+            Cloudflare Turnstile Dashboard ↗
+          </a>
+        </div>
+
+        <form id="turnstile-settings-form">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="turnstile-site-key">Turnstile Site Key</label>
+              <input type="text" id="turnstile-site-key" class="form-control" placeholder="0x4AAAAAAxxxxxxxxxxxxxx">
+              <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 0.25rem;">Public site key for frontend widget</small>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="turnstile-secret-key">Turnstile Secret Key</label>
+              <input type="password" id="turnstile-secret-key" class="form-control" placeholder="0x4AAAAAAxxxxxxxxxxxxxxxxxxxxxxxxx">
+              <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 0.25rem;">Secret key for backend server validation</small>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+            <button type="submit" class="btn btn-primary" style="padding: 0.65rem 1.5rem; font-size: 0.9rem;">
+              Save Anti-Spam Settings
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Admin Users Section -->
+      <div class="admin-card">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+          <div>
+            <h2 style="font-size: 1.4rem; margin-bottom: 0.25rem;" data-i18n="admin.usersTitle">Administrator Accounts</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;" data-i18n="admin.usersDesc">
+              Manage accounts with administrative access to AREENA.
+            </p>
+          </div>
+          <button id="show-add-admin-btn" class="btn btn-primary" style="padding: 0.6rem 1.25rem; font-size: 0.9rem;" data-i18n="admin.addUser">
+            + Create New Admin
+          </button>
+        </div>
+
+        <!-- Add Admin Inline Form -->
+        <div id="add-admin-panel" style="display: none; background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.75rem; margin-bottom: 2rem;">
+          <h3 style="font-size: 1.15rem; margin-bottom: 1.25rem;" data-i18n="admin.addUser">Create New Admin</h3>
+          <form id="add-admin-form">
+            <div class="form-row-2" style="margin-bottom: 1.25rem;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="new-username" data-i18n="admin.username">Username</label>
+                <input type="text" id="new-username" class="form-control" required minlength="3">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="new-email" data-i18n="admin.email">Email Address</label>
+                <input type="email" id="new-email" class="form-control" required>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="new-password" data-i18n="admin.password">Password</label>
+                <input type="password" id="new-password" class="form-control" required minlength="6">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="new-confirm-password" data-i18n="admin.confirmPassword">Confirm Password</label>
+                <input type="password" id="new-confirm-password" class="form-control" required minlength="6">
+              </div>
+            </div>
+            <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+              <button type="button" id="cancel-add-admin" class="btn btn-secondary" style="padding: 0.6rem 1.25rem;">Cancel</button>
+              <button type="submit" class="btn btn-primary" style="padding: 0.6rem 1.25rem;" data-i18n="admin.addUser">Save Admin</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Users Table -->
+        <div style="overflow-x: auto;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th data-i18n="admin.username">Username</th>
+                <th data-i18n="admin.email">Email</th>
+                <th data-i18n="admin.role">Role</th>
+                <th data-i18n="admin.created">Created</th>
+                <th style="text-align: right;" data-i18n="admin.action">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admins-table-body">
+              <!-- Loaded via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="/js/i18n.js"></script>
+  <script src="/js/app.js"></script>
+  <script>
+    // Admin Dashboard Logic
+    document.addEventListener('DOMContentLoaded', async () => {
+      const setupView = document.getElementById('setup-view');
+      const loginView = document.getElementById('login-view');
+      const dashboardView = document.getElementById('dashboard-view');
+
+      let currentAdminUser = null;
+
+      function showToast(elementId, msg, duration = 4000) {
+        const el = document.getElementById(elementId);
+        if (el) {
+          el.textContent = msg;
+          el.style.display = 'block';
+          setTimeout(() => { el.style.display = 'none'; }, duration);
+        }
+      }
+
+      async function checkStatus() {
+        try {
+          const res = await fetch('/api/status');
+          const data = await res.json();
+          
+          if (data.needsSetup) {
+            setupView.style.display = 'block';
+            loginView.style.display = 'none';
+            dashboardView.style.display = 'none';
+          } else if (!data.isAuthenticated) {
+            setupView.style.display = 'none';
+            loginView.style.display = 'block';
+            dashboardView.style.display = 'none';
+          } else {
+            currentAdminUser = data.user;
+            setupView.style.display = 'none';
+            loginView.style.display = 'none';
+            dashboardView.style.display = 'block';
+            renderDashboard(data);
+          }
+        } catch (e) {
+          console.error('Error fetching admin status', e);
+        }
+      }
+
+      function updateMaintenanceUI(isActive) {
+        const toggle = document.getElementById('maintenance-toggle-switch');
+        const pill = document.getElementById('maintenance-pill');
+        const text = document.getElementById('maintenance-status-text');
+        const curDict = window.I18nManager ? window.I18nManager.getLoadedDictionary() : null;
+
+        toggle.checked = isActive;
+        if (isActive) {
+          pill.className = 'status-pill active';
+          text.textContent = curDict?.admin?.maintenanceStatusActive || 'Maintenance is ACTIVE (Public site is hidden)';
+        } else {
+          pill.className = 'status-pill inactive';
+          text.textContent = curDict?.admin?.maintenanceStatusInactive || 'Maintenance is INACTIVE (Public site is live)';
+        }
+      }
+
+      async function renderDashboard(data) {
+        document.getElementById('admin-user-display').textContent = data.user?.username || 'Admin';
+        updateMaintenanceUI(data.maintenanceMode);
+        await Promise.all([loadAdminUsers(), loadEmailSettings(), loadTurnstileSettings()]);
+      }
+
+      async function loadTurnstileSettings() {
+        try {
+          const res = await fetch('/api/admin/turnstile-settings');
+          if (!res.ok) return;
+          const settings = await res.json();
+          document.getElementById('turnstile-site-key').value = settings.turnstileSiteKey || '';
+          document.getElementById('turnstile-secret-key').value = settings.turnstileSecretKey || '';
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      // Turnstile Settings Submit
+      const turnstileSettingsForm = document.getElementById('turnstile-settings-form');
+      if (turnstileSettingsForm) {
+        turnstileSettingsForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const turnstileSiteKey = document.getElementById('turnstile-site-key').value;
+          const turnstileSecretKey = document.getElementById('turnstile-secret-key').value;
+
+          try {
+            const res = await fetch('/api/admin/turnstile-settings', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ turnstileSiteKey, turnstileSecretKey })
+            });
+            const result = await res.json();
+            if (res.ok) {
+              showToast('dashboard-toast', 'Turnstile settings saved successfully.');
+            } else {
+              showToast('dashboard-error', result.error || 'Failed to save Turnstile settings.');
+            }
+          } catch (err) {
+            showToast('dashboard-error', 'Network error.');
+          }
+        });
+      }
+
+      async function loadAdminUsers() {
+        try {
+          const res = await fetch('/api/admin/users');
+          if (!res.ok) return;
+          const users = await res.json();
+          const tbody = document.getElementById('admins-table-body');
+          tbody.innerHTML = '';
+
+          const curDict = window.I18nManager ? window.I18nManager.getLoadedDictionary() : null;
+          const roleText = curDict?.admin?.roleAdmin || 'Administrator';
+          const deleteText = curDict?.admin?.delete || 'Delete';
+
+          users.forEach(u => {
+            const tr = document.createElement('tr');
+            const isSelf = currentAdminUser && u.id === currentAdminUser.id;
+            const isOnlyOne = users.length <= 1;
+
+            tr.innerHTML = `
+              <td><strong>${escapeHtml(u.username)}</strong> ${isSelf ? '<span style="font-size:0.75rem; color:var(--accent-cyan);">(You)</span>' : ''}</td>
+              <td>${escapeHtml(u.email)}</td>
+              <td><span class="status-badge" style="background:var(--bg-badge); color:var(--accent-cyan); padding:0.2rem 0.6rem; border-radius:var(--radius-full); font-size:0.75rem; font-weight:700;">${roleText}</span></td>
+              <td>${new Date(u.created_at).toLocaleDateString()}</td>
+              <td style="text-align: right;">
+                ${!isSelf && !isOnlyOne ? `<button class="btn-danger delete-user-btn" data-id="${u.id}">${deleteText}</button>` : '<span style="color:var(--text-muted); font-size:0.8rem;">Protected</span>'}
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+
+          // Attach delete listeners
+          document.querySelectorAll('.delete-user-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+              const id = btn.getAttribute('data-id');
+              if (confirm('Are you sure you want to delete this administrator account?')) {
+                const delRes = await fetch(`/api/admin/users/${id}`, { method: 'DELETE' });
+                if (delRes.ok) {
+                  showToast('dashboard-toast', curDict?.admin?.successDeleted || 'Admin deleted successfully.');
+                  loadAdminUsers();
+                } else {
+                  const errData = await delRes.json();
+                  showToast('dashboard-error', errData.error || 'Failed to delete user.');
+                }
+              }
+            });
+          });
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      async function loadEmailSettings() {
+        try {
+          const res = await fetch('/api/admin/email-settings');
+          if (!res.ok) return;
+          const settings = await res.json();
+          document.getElementById('mg-api-key').value = settings.mailgunApiKey || '';
+          document.getElementById('mg-domain').value = settings.mailgunDomain || '';
+          document.getElementById('mg-region').value = settings.mailgunRegion || 'US';
+          document.getElementById('mg-recipient').value = settings.contactRecipientEmail || 'contact@areena.ch';
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      function escapeHtml(str) {
+        return (str || '').replace(/[&<>'"]/g, tag => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        }[tag] || tag));
+      }
+
+      // Email Settings Submit
+      const emailSettingsForm = document.getElementById('email-settings-form');
+      if (emailSettingsForm) {
+        emailSettingsForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const mailgunApiKey = document.getElementById('mg-api-key').value;
+          const mailgunDomain = document.getElementById('mg-domain').value;
+          const mailgunRegion = document.getElementById('mg-region').value;
+          const contactRecipientEmail = document.getElementById('mg-recipient').value;
+
+          try {
+            const res = await fetch('/api/admin/email-settings', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                mailgunApiKey,
+                mailgunDomain,
+                mailgunRegion,
+                contactRecipientEmail
+              })
+            });
+            const result = await res.json();
+            if (res.ok) {
+              showToast('dashboard-toast', 'Email settings saved successfully.');
+            } else {
+              showToast('dashboard-error', result.error || 'Failed to save email settings.');
+            }
+          } catch (err) {
+            showToast('dashboard-error', 'Network error.');
+          }
+        });
+      }
+
+      // Test Email Button
+      const testEmailBtn = document.getElementById('test-email-btn');
+      if (testEmailBtn) {
+        testEmailBtn.addEventListener('click', async () => {
+          const origText = testEmailBtn.textContent;
+          testEmailBtn.textContent = 'Sending Test Email...';
+          testEmailBtn.disabled = true;
+
+          try {
+            const res = await fetch('/api/admin/test-email', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                to: document.getElementById('mg-recipient').value
+              })
+            });
+            const result = await res.json();
+            if (res.ok) {
+              showToast('dashboard-toast', 'Test email sent successfully! Please check your inbox.');
+            } else {
+              showToast('dashboard-error', result.error || 'Test email failed.');
+            }
+          } catch (err) {
+            showToast('dashboard-error', 'Network error while sending test email.');
+          } finally {
+            testEmailBtn.textContent = origText;
+            testEmailBtn.disabled = false;
+          }
+        });
+      }
+
+      // First-time Setup Form Submit
+      const setupForm = document.getElementById('setup-form');
+      if (setupForm) {
+        setupForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const username = document.getElementById('setup-username').value;
+          const email = document.getElementById('setup-email').value;
+          const password = document.getElementById('setup-password').value;
+          const confirm = document.getElementById('setup-confirm-password').value;
+
+          if (password !== confirm) {
+            showToast('setup-error', 'Passwords do not match.');
+            return;
+          }
+
+          try {
+            const res = await fetch('/api/setup', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username, email, password })
+            });
+            const result = await res.json();
+            if (res.ok) {
+              await checkStatus();
+            } else {
+              showToast('setup-error', result.error || 'Setup failed.');
+            }
+          } catch (err) {
+            showToast('setup-error', 'Network error during setup.');
+          }
+        });
+      }
+
+      // Login Form Submit
+      const loginForm = document.getElementById('login-form');
+      if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const identifier = document.getElementById('login-identifier').value;
+          const password = document.getElementById('login-password').value;
+
+          try {
+            const res = await fetch('/api/auth/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ identifier, password })
+            });
+            const result = await res.json();
+            if (res.ok) {
+              await checkStatus();
+            } else {
+              showToast('login-error', result.error || 'Invalid credentials.');
+            }
+          } catch (err) {
+            showToast('login-error', 'Network error during login.');
+          }
+        });
+      }
+
+      // Logout
+      const logoutBtn = document.getElementById('logout-btn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+          await fetch('/api/auth/logout', { method: 'POST' });
+          await checkStatus();
+        });
+      }
+
+      // Maintenance Switch
+      const maintenanceSwitch = document.getElementById('maintenance-toggle-switch');
+      if (maintenanceSwitch) {
+        maintenanceSwitch.addEventListener('change', async () => {
+          const enabled = maintenanceSwitch.checked;
+          try {
+            const res = await fetch('/api/admin/maintenance', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ enabled })
+            });
+            const result = await res.json();
+            updateMaintenanceUI(result.maintenanceMode);
+            showToast('dashboard-toast', result.maintenanceMode ? 'Maintenance Mode activated.' : 'Maintenance Mode deactivated.');
+          } catch (err) {
+            showToast('dashboard-error', 'Failed to toggle maintenance mode.');
+            maintenanceSwitch.checked = !enabled;
+          }
+        });
+      }
+
+      // Add Admin Panel Toggle
+      const showAddAdminBtn = document.getElementById('show-add-admin-btn');
+      const addAdminPanel = document.getElementById('add-admin-panel');
+      const cancelAddAdmin = document.getElementById('cancel-add-admin');
+      const addAdminForm = document.getElementById('add-admin-form');
+
+      if (showAddAdminBtn && addAdminPanel && cancelAddAdmin) {
+        showAddAdminBtn.addEventListener('click', () => {
+          addAdminPanel.style.display = 'block';
+          document.getElementById('new-username').focus();
+        });
+
+        cancelAddAdmin.addEventListener('click', () => {
+          addAdminPanel.style.display = 'none';
+          addAdminForm.reset();
+        });
+      }
+
+      if (addAdminForm) {
+        addAdminForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const username = document.getElementById('new-username').value;
+          const email = document.getElementById('new-email').value;
+          const password = document.getElementById('new-password').value;
+          const confirm = document.getElementById('new-confirm-password').value;
+
+          if (password !== confirm) {
+            showToast('dashboard-error', 'Passwords do not match.');
+            return;
+          }
+
+          try {
+            const res = await fetch('/api/admin/users', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username, email, password })
+            });
+            const result = await res.json();
+            if (res.ok) {
+              const curDict = window.I18nManager ? window.I18nManager.getLoadedDictionary() : null;
+              showToast('dashboard-toast', curDict?.admin?.successCreated || 'Admin created successfully.');
+              addAdminPanel.style.display = 'none';
+              addAdminForm.reset();
+              loadAdminUsers();
+            } else {
+              showToast('dashboard-error', result.error || 'Failed to create admin.');
+            }
+          } catch (err) {
+            showToast('dashboard-error', 'Network error.');
+          }
+        });
+      }
+
+      // Initialize
+      await checkStatus();
+    });
+  </script>
+</body>
+</html>
