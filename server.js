@@ -26,6 +26,7 @@ const { renderPage } = require('./lib/components');
 function createServer(options = {}) {
   const app = express();
   const publicDir = options.publicDir || path.join(__dirname, 'public');
+  const viewsDir = options.viewsDir || (require('fs').existsSync(path.join(__dirname, 'views')) ? path.join(__dirname, 'views') : publicDir);
 
   // Gzip / Brotli compression
   app.use(compression());
@@ -54,7 +55,14 @@ function createServer(options = {}) {
     next();
   });
 
-  // Static Assets (Files like CSS, JS, Images, Locales) - index set to false so root route is handled dynamically
+  // Static Assets (Files like CSS, JS, Images, Locales) - skip .html files so they are always rendered with components
+  app.use((req, res, next) => {
+    if (req.path.endsWith('.html')) {
+      return next();
+    }
+    next();
+  });
+
   app.use(express.static(publicDir, {
     maxAge: process.env.NODE_ENV === 'production' ? '1d' : 0,
     etag: true,
@@ -271,12 +279,12 @@ function createServer(options = {}) {
 
   // Admin Dashboard (Always accessible)
   app.get(['/admin', '/admin.html'], (req, res) => {
-    res.type('html').send(renderPage(path.join(publicDir, 'admin.html'), { isSubpage: true }));
+    res.type('html').send(renderPage(path.join(viewsDir, 'admin.html'), { isSubpage: true }));
   });
 
   // Explicit Maintenance Page
   app.get(['/maintenance', '/maintenance.html'], (req, res) => {
-    res.type('html').send(renderPage(path.join(publicDir, 'maintenance.html'), { isSubpage: true }));
+    res.type('html').send(renderPage(path.join(viewsDir, 'maintenance.html'), { isSubpage: true }));
   });
 
   // Maintenance Mode Guard for Public Routes
@@ -284,40 +292,51 @@ function createServer(options = {}) {
     const isMaintenance = getMaintenanceMode();
     if (isMaintenance && !req.user) {
       // Return maintenance page for public visitors during maintenance
-      return res.status(503).type('html').send(renderPage(path.join(publicDir, 'maintenance.html'), { isSubpage: true }));
+      return res.status(503).type('html').send(renderPage(path.join(viewsDir, 'maintenance.html'), { isSubpage: true }));
     }
     next();
   });
 
   // Dedicated Pages
   app.get(['/', '/index.html'], (req, res) => {
-    res.type('html').send(renderPage(path.join(publicDir, 'index.html'), { isSubpage: false }));
+    res.type('html').send(renderPage(path.join(viewsDir, 'index.html'), { isSubpage: false }));
   });
 
-  app.get('/impressum', (req, res) => {
-    res.type('html').send(renderPage(path.join(publicDir, 'impressum.html'), { isSubpage: true }));
+  app.get(['/impressum', '/impressum.html'], (req, res) => {
+    res.type('html').send(renderPage(path.join(viewsDir, 'impressum.html'), { isSubpage: true }));
   });
 
-  app.get(['/privacy-policy', '/privacy'], (req, res) => {
-    res.type('html').send(renderPage(path.join(publicDir, 'privacy-policy.html'), { isSubpage: true }));
+  app.get(['/privacy-policy', '/privacy', '/privacy-policy.html'], (req, res) => {
+    res.type('html').send(renderPage(path.join(viewsDir, 'privacy-policy.html'), { isSubpage: true }));
   });
 
   // 404 Fallback
   app.use((req, res) => {
-    res.status(404).type('html').send(renderPage(path.join(publicDir, '404.html'), { isSubpage: true }));
+    res.status(404).type('html').send(renderPage(path.join(viewsDir, '404.html'), { isSubpage: true }));
   });
 
   return app;
 }
 
-function startServer(port = process.env.PORT || 3000) {
+function startServer(port) {
   const app = createServer();
-  const server = app.listen(port, () => {
+
+  // Official Phusion Passenger (Plesk standard) support
+  if (typeof PhusionPassenger !== 'undefined') {
+    PhusionPassenger.configure({ autoInstall: false });
+    const server = app.listen('passenger', () => {
+      console.log('🚀 AREENA Homepage running under Phusion Passenger (Plesk Reverse Proxy)');
+    });
+    return server;
+  }
+
+  const listenPort = port || process.env.PORT || 3000;
+  const server = app.listen(listenPort, () => {
     console.log(`\n==================================================`);
     console.log(`  🚀 AREENA Homepage is running!`);
-    console.log(`  🌐 Local:   http://localhost:${port}`);
-    console.log(`  🌍 Network: http://127.0.0.1:${port}`);
-    console.log(`  ⚡ Admin:   http://localhost:${port}/admin`);
+    console.log(`  🌐 Local:   http://localhost:${listenPort}`);
+    console.log(`  🌍 Network: http://127.0.0.1:${listenPort}`);
+    console.log(`  ⚡ Admin:   http://localhost:${listenPort}/admin`);
     console.log(`==================================================\n`);
   });
 
