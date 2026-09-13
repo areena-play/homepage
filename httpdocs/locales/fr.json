@@ -36,7 +36,7 @@
   "status": {
     "badge": "TÉLÉMÉTRIE EN DIRECT",
     "title": "État de Santé & Disponibilité des Services",
-    "subtitle": "Métriques en direct et disponibilité opérationnelle surveillées 24/7 via Uptime Kuma.",
+    "subtitle": "Métriques en direct et disponibilité opérationnelle surveillées 24/7.",
     "viewStatusPage": "Afficher la Page Complète d'État ↗",
     "operational": "Opérationnel",
     "homepage": "AREENA Homepage",

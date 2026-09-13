@@ -36,7 +36,7 @@
   "status": {
     "badge": "LIVE TELEMETRY",
     "title": "Platform Health & Service Status",
-    "subtitle": "Real-time service metrics and operational status monitored 24/7 via Uptime Kuma.",
+    "subtitle": "Real-time service metrics and operational status monitored 24/7.",
     "viewStatusPage": "View Full Status Page ↗",
     "operational": "Operational",
     "homepage": "AREENA Homepage",

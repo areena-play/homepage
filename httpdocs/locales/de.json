@@ -36,7 +36,7 @@
   "status": {
     "badge": "LIVE-TELEMETRIE",
     "title": "Systemzustand & Servicestatus",
-    "subtitle": "Echtzeit-Servicemetriken und Betriebsstatus rund um die Uhr überwacht via Uptime Kuma.",
+    "subtitle": "Echtzeit-Servicemetriken und Betriebsstatus rund um die Uhr überwacht.",
     "viewStatusPage": "Vollständige Statusseite anzeigen ↗",
     "operational": "Betriebsbereit",
     "homepage": "AREENA Homepage",
