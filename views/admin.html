@@ -282,13 +282,75 @@
             <label class="form-label" for="login-identifier" data-i18n="admin.username">Username or Email</label>
             <input type="text" id="login-identifier" class="form-control" required placeholder="admin or email">
           </div>
-          <div class="form-group">
+          <div class="form-group" style="margin-bottom: 0.5rem;">
             <label class="form-label" for="login-password" data-i18n="admin.password">Password</label>
             <input type="password" id="login-password" class="form-control" required placeholder="••••••••">
           </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" data-i18n="admin.loginBtn">
+          <div style="display: flex; justify-content: flex-end; margin-bottom: 1.25rem;">
+            <a href="#" id="to-forgot-btn" style="color: var(--accent-cyan); font-size: 0.85rem; font-weight: 500;" data-i18n="admin.forgotPassword">Forgot Password?</a>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="admin.loginBtn">
             Sign In
           </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- View 3: Forgot Password View -->
+    <div id="forgot-view" style="display: none;">
+      <div class="admin-card admin-auth-card">
+        <div class="section-badge" data-i18n="admin.forgotTitle">PASSWORD RESET</div>
+        <h1 style="font-size: 1.85rem; margin-bottom: 0.5rem;" data-i18n="admin.forgotTitle">Password Reset Request</h1>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem;" data-i18n="admin.forgotSubtitle">
+          Enter your username or email address and we'll send you a password reset link.
+        </p>
+
+        <div id="forgot-error" class="toast-msg toast-error"></div>
+        <div id="forgot-success" class="toast-msg toast-success"></div>
+
+        <form id="forgot-form">
+          <div class="form-group">
+            <label class="form-label" for="forgot-identifier" data-i18n="admin.username">Username or Email</label>
+            <input type="text" id="forgot-identifier" class="form-control" required placeholder="admin or email">
+          </div>
+          <button type="submit" id="forgot-submit-btn" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" data-i18n="admin.sendResetLink">
+            Send Reset Link
+          </button>
+          <div style="text-align: center; margin-top: 1.25rem;">
+            <a href="#" id="forgot-back-to-login" style="color: var(--text-muted); font-size: 0.875rem;" data-i18n="admin.backToLogin">← Back to Login</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- View 4: Set New Password View -->
+    <div id="reset-view" style="display: none;">
+      <div class="admin-card admin-auth-card">
+        <div class="section-badge" data-i18n="admin.resetTitle">NEW PASSWORD</div>
+        <h1 style="font-size: 1.85rem; margin-bottom: 0.5rem;" data-i18n="admin.resetTitle">Set New Password</h1>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem;" data-i18n="admin.resetSubtitle">
+          Enter and confirm your new password.
+        </p>
+
+        <div id="reset-error" class="toast-msg toast-error"></div>
+        <div id="reset-success" class="toast-msg toast-success"></div>
+
+        <form id="reset-form">
+          <input type="hidden" id="reset-token-input">
+          <div class="form-group">
+            <label class="form-label" for="reset-new-password" data-i18n="admin.newPassword">New Password</label>
+            <input type="password" id="reset-new-password" class="form-control" required minlength="6" placeholder="••••••••">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reset-confirm-password" data-i18n="admin.confirmPassword">Confirm Password</label>
+            <input type="password" id="reset-confirm-password" class="form-control" required minlength="6" placeholder="••••••••">
+          </div>
+          <button type="submit" id="reset-submit-btn" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" data-i18n="admin.resetBtn">
+            Save New Password
+          </button>
+          <div style="text-align: center; margin-top: 1.25rem;">
+            <a href="/admin" id="reset-to-login" style="color: var(--text-muted); font-size: 0.875rem;" data-i18n="admin.backToLogin">← Back to Login</a>
+          </div>
         </form>
       </div>
     </div>
@@ -479,6 +541,42 @@
           </table>
         </div>
       </div>
+
+      <!-- Security & Password Change Section -->
+      <div class="admin-card">
+        <div style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.4rem; margin-bottom: 0.25rem;" data-i18n="admin.changePasswordTitle">Security & Password</h2>
+          <p style="color: var(--text-secondary); font-size: 0.9rem;" data-i18n="admin.changePasswordDesc">
+            Update your administrator login password.
+          </p>
+        </div>
+
+        <div id="password-change-toast" class="toast-msg toast-success"></div>
+        <div id="password-change-error" class="toast-msg toast-error"></div>
+
+        <form id="change-password-form">
+          <div class="form-group">
+            <label class="form-label" for="cp-current" data-i18n="admin.currentPassword">Current Password</label>
+            <input type="password" id="cp-current" class="form-control" required placeholder="••••••••">
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="cp-new" data-i18n="admin.newPassword">New Password</label>
+              <input type="password" id="cp-new" class="form-control" required minlength="6" placeholder="••••••••">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cp-confirm" data-i18n="admin.confirmPassword">Confirm Password</label>
+              <input type="password" id="cp-confirm" class="form-control" required minlength="6" placeholder="••••••••">
+            </div>
+          </div>
+          <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+            <button type="submit" class="btn btn-primary" style="padding: 0.65rem 1.5rem; font-size: 0.9rem;" data-i18n="admin.changePasswordBtn">
+              Update Password
+            </button>
+          </div>
+        </form>
+      </div>
+
     </div>
 
   </main>
@@ -490,6 +588,8 @@
     document.addEventListener('DOMContentLoaded', async () => {
       const setupView = document.getElementById('setup-view');
       const loginView = document.getElementById('login-view');
+      const forgotView = document.getElementById('forgot-view');
+      const resetView = document.getElementById('reset-view');
       const dashboardView = document.getElementById('dashboard-view');
 
       let currentAdminUser = null;
@@ -503,29 +603,74 @@
         }
       }
 
+      function hideAllViews() {
+        setupView.style.display = 'none';
+        loginView.style.display = 'none';
+        forgotView.style.display = 'none';
+        resetView.style.display = 'none';
+        dashboardView.style.display = 'none';
+      }
+
       async function checkStatus() {
         try {
+          // Check for password reset token in URL
+          const urlParams = new URLSearchParams(window.location.search);
+          const resetToken = urlParams.get('reset_token');
+
+          if (resetToken) {
+            hideAllViews();
+            resetView.style.display = 'block';
+            document.getElementById('reset-token-input').value = resetToken;
+            return;
+          }
+
           const res = await fetch('/api/status');
           const data = await res.json();
           
+          hideAllViews();
           if (data.needsSetup) {
             setupView.style.display = 'block';
-            loginView.style.display = 'none';
-            dashboardView.style.display = 'none';
           } else if (!data.isAuthenticated) {
-            setupView.style.display = 'none';
             loginView.style.display = 'block';
-            dashboardView.style.display = 'none';
           } else {
             currentAdminUser = data.user;
-            setupView.style.display = 'none';
-            loginView.style.display = 'none';
             dashboardView.style.display = 'block';
             renderDashboard(data);
           }
         } catch (e) {
           console.error('Error fetching admin status', e);
         }
+      }
+
+      // Forgot Password navigation buttons
+      const toForgotBtn = document.getElementById('to-forgot-btn');
+      if (toForgotBtn) {
+        toForgotBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          hideAllViews();
+          forgotView.style.display = 'block';
+          document.getElementById('forgot-identifier').focus();
+        });
+      }
+
+      const forgotBackToLogin = document.getElementById('forgot-back-to-login');
+      if (forgotBackToLogin) {
+        forgotBackToLogin.addEventListener('click', (e) => {
+          e.preventDefault();
+          hideAllViews();
+          loginView.style.display = 'block';
+        });
+      }
+
+      const resetToLogin = document.getElementById('reset-to-login');
+      if (resetToLogin) {
+        resetToLogin.addEventListener('click', (e) => {
+          e.preventDefault();
+          // Remove query param from URL
+          window.history.replaceState({}, document.title, '/admin');
+          hideAllViews();
+          loginView.style.display = 'block';
+        });
       }
 
       function updateMaintenanceUI(isActive) {
@@ -860,6 +1005,121 @@
             }
           } catch (err) {
             showToast('dashboard-error', 'Network error.');
+          }
+        });
+      }
+
+      // Forgot Password Form Submit
+      const forgotForm = document.getElementById('forgot-form');
+      if (forgotForm) {
+        forgotForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const identifier = document.getElementById('forgot-identifier').value;
+          const submitBtn = document.getElementById('forgot-submit-btn');
+          const origText = submitBtn.textContent;
+          const curDict = window.I18nManager ? window.I18nManager.getLoadedDictionary() : null;
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = '...';
+
+          try {
+            const res = await fetch('/api/auth/forgot-password', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ identifier })
+            });
+            const result = await res.json();
+            if (res.ok) {
+              showToast('forgot-success', curDict?.admin?.forgotEmailSent || result.message || 'If an account exists, a reset link has been sent.', 6000);
+              forgotForm.reset();
+            } else {
+              showToast('forgot-error', result.error || 'Failed to send reset link.');
+            }
+          } catch (err) {
+            showToast('forgot-error', 'Network error.');
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = origText;
+          }
+        });
+      }
+
+      // Reset Password Form Submit
+      const resetForm = document.getElementById('reset-form');
+      if (resetForm) {
+        resetForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const token = document.getElementById('reset-token-input').value;
+          const newPassword = document.getElementById('reset-new-password').value;
+          const confirmPassword = document.getElementById('reset-confirm-password').value;
+          const submitBtn = document.getElementById('reset-submit-btn');
+          const curDict = window.I18nManager ? window.I18nManager.getLoadedDictionary() : null;
+
+          if (newPassword !== confirmPassword) {
+            showToast('reset-error', curDict?.admin?.passwordsMismatch || 'Passwords do not match.');
+            return;
+          }
+
+          submitBtn.disabled = true;
+          const origText = submitBtn.textContent;
+          submitBtn.textContent = '...';
+
+          try {
+            const res = await fetch('/api/auth/reset-password', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ token, newPassword })
+            });
+            const result = await res.json();
+            if (res.ok) {
+              showToast('reset-success', curDict?.admin?.resetSuccess || 'Password has been reset successfully! Redirecting...');
+              // Clear URL reset token
+              window.history.replaceState({}, document.title, '/admin');
+              setTimeout(async () => {
+                await checkStatus();
+              }, 1200);
+            } else {
+              showToast('reset-error', result.error || 'Failed to reset password.');
+            }
+          } catch (err) {
+            showToast('reset-error', 'Network error.');
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = origText;
+          }
+        });
+      }
+
+      // Change Password Form Submit
+      const changePasswordForm = document.getElementById('change-password-form');
+      if (changePasswordForm) {
+        changePasswordForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const currentPassword = document.getElementById('cp-current').value;
+          const newPassword = document.getElementById('cp-new').value;
+          const confirmPassword = document.getElementById('cp-confirm').value;
+          const curDict = window.I18nManager ? window.I18nManager.getLoadedDictionary() : null;
+
+          if (newPassword !== confirmPassword) {
+            showToast('password-change-error', curDict?.admin?.passwordsMismatch || 'Passwords do not match.');
+            return;
+          }
+
+          try {
+            const res = await fetch('/api/admin/change-password', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ currentPassword, newPassword })
+            });
+            const result = await res.json();
+            if (res.ok) {
+              showToast('password-change-toast', curDict?.admin?.passwordChanged || 'Password changed successfully.');
+              changePasswordForm.reset();
+            } else {
+              showToast('password-change-error', result.error || 'Failed to change password.');
+            }
+          } catch (err) {
+            showToast('password-change-error', 'Network error.');
           }
         });
       }

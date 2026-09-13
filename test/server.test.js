@@ -247,7 +247,101 @@ async function runTests() {
     const authorizedRestart = await makeRequest('/api/deploy-restart?secret=areena-deploy-restart');
     assert.strictEqual(authorizedRestart.statusCode, 200);
     assert.strictEqual(authorizedRestart.json().success, true);
-    console.log('  ✅ Auto-Deployment Restart Webhook endpoint verified');
+    // 14. Password Change (Authenticated)
+    const badChangeRes = await makeRequest('/api/admin/change-password', {
+      method: 'POST',
+      headers: { Cookie: loginCookie },
+      body: JSON.stringify({
+        currentPassword: 'wrongPassword',
+        newPassword: 'newSecurePassword456'
+      })
+    });
+    assert.strictEqual(badChangeRes.statusCode, 400, 'Password change must reject incorrect current password');
+
+    const goodChangeRes = await makeRequest('/api/admin/change-password', {
+      method: 'POST',
+      headers: { Cookie: loginCookie },
+      body: JSON.stringify({
+        currentPassword: 'securePassword123',
+        newPassword: 'newSecurePassword456'
+      })
+    });
+    assert.strictEqual(goodChangeRes.statusCode, 200);
+    assert.strictEqual(goodChangeRes.json().success, true);
+
+    // Old password should now fail login
+    const oldLoginFail = await makeRequest('/api/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({
+        identifier: 'masteradmin',
+        password: 'securePassword123'
+      })
+    });
+    assert.strictEqual(oldLoginFail.statusCode, 401, 'Old password must no longer work');
+
+    // New password should succeed
+    const newLoginSuccess = await makeRequest('/api/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({
+        identifier: 'masteradmin',
+        password: 'newSecurePassword456'
+      })
+    });
+    assert.strictEqual(newLoginSuccess.statusCode, 200);
+    console.log('  ✅ Password Change API verified (old password check, password update, re-login)');
+
+    // 15. Password Reset Request (Forgot Password)
+    const unknownForgotRes = await makeRequest('/api/auth/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify({ identifier: 'nonexistent@areena.play' })
+    });
+    assert.strictEqual(unknownForgotRes.statusCode, 200, 'Forgot password returns 200 to prevent enumeration');
+
+    const knownForgotRes = await makeRequest('/api/auth/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify({ identifier: 'master@areena.play' })
+    });
+    assert.strictEqual(knownForgotRes.statusCode, 200);
+    assert.strictEqual(knownForgotRes.json().success, true);
+
+    // Retrieve the reset token from the test DB directly to test reset endpoint
+    const db = getDB();
+    const tokenObj = db.data.password_resets.find(r => r.user_id === 1);
+    assert.ok(tokenObj && tokenObj.token, 'A password reset token should be recorded in DB');
+    const validResetToken = tokenObj.token;
+
+    // 16. Password Reset with Token
+    const invalidTokenRes = await makeRequest('/api/auth/reset-password', {
+      method: 'POST',
+      body: JSON.stringify({
+        token: 'invalid-fake-token-123',
+        newPassword: 'brandNewPassword789'
+      })
+    });
+    assert.strictEqual(invalidTokenRes.statusCode, 400, 'Reset password must reject invalid token');
+
+    const validResetRes = await makeRequest('/api/auth/reset-password', {
+      method: 'POST',
+      body: JSON.stringify({
+        token: validResetToken,
+        newPassword: 'brandNewPassword789'
+      })
+    });
+    assert.strictEqual(validResetRes.statusCode, 200);
+    assert.strictEqual(validResetRes.json().success, true);
+    const resetSessionCookie = extractCookie(validResetRes.headers);
+    assert.ok(resetSessionCookie && resetSessionCookie.includes('areena_session='), 'Reset password should log user in with session cookie');
+
+    // Verify login with newest password works
+    const resetLoginRes = await makeRequest('/api/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({
+        identifier: 'masteradmin',
+        password: 'brandNewPassword789'
+      })
+    });
+    assert.strictEqual(resetLoginRes.statusCode, 200);
+    console.log('  ✅ Password Forgot & Reset flow verified (token generation, token validation, password update, auto-login)');
 
     console.log('\n✨ All test suites passed successfully!\n');
     server.close(() => {

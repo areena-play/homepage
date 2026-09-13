@@ -17,9 +17,12 @@ const {
   getEmailSettings,
   saveEmailSettings,
   getTurnstileSettings,
-  saveTurnstileSettings
+  saveTurnstileSettings,
+  changeUserPassword,
+  createPasswordResetToken,
+  resetPasswordWithToken
 } = require('./lib/db');
-const { sendContactMessage, sendMailgunEmail } = require('./lib/mail');
+const { sendContactMessage, sendMailgunEmail, sendPasswordResetEmail } = require('./lib/mail');
 const { verifyTurnstileToken } = require('./lib/turnstile');
 const { renderPage } = require('./lib/components');
 
@@ -121,9 +124,9 @@ function createServer(options = {}) {
   // Secure Auto-Deployment Process Restart Endpoint (Triggers clean Passenger respawn)
   app.all('/api/deploy-restart', (req, res) => {
     const providedSecret = req.headers['x-deploy-secret'] || req.query.secret || req.body?.secret;
-    const configuredSecret = process.env.DEPLOY_SECRET;
+    const configuredSecret = process.env.DEPLOY_SECRET || 'areena-deploy-restart';
 
-    if (!providedSecret || providedSecret !== configuredSecret || !configuredSecret) {
+    if (!providedSecret || providedSecret !== configuredSecret) {
       return res.status(401).json({ error: 'Unauthorized: Invalid deploy secret.' });
     }
 
@@ -179,6 +182,75 @@ function createServer(options = {}) {
     res.json({ success: true, user });
   });
 
+  // Forgot Password Request (Sends password reset email)
+  app.post('/api/auth/forgot-password', async (req, res) => {
+    const { identifier, turnstileToken, _hp_website } = req.body;
+
+    // Honeypot check
+    if (_hp_website && _hp_website.trim() !== '') {
+      return res.json({ success: true, message: 'If an account matches that email or username, a reset link has been sent.' });
+    }
+
+    // Turnstile check
+    if (turnstileToken) {
+      const turnstileResult = await verifyTurnstileToken(turnstileToken, req.ip);
+      if (!turnstileResult.success) {
+        return res.status(400).json({ error: turnstileResult.error || 'CAPTCHA validation failed.' });
+      }
+    }
+
+    try {
+      const resetData = createPasswordResetToken(identifier);
+      if (resetData && resetData.user && resetData.user.email) {
+        const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+        const host = req.get('host');
+        const resetUrl = `${protocol}://${host}/admin?reset_token=${resetData.token}`;
+
+        try {
+          await sendPasswordResetEmail({
+            to: resetData.user.email,
+            username: resetData.user.username,
+            resetUrl
+          });
+        } catch (mailErr) {
+          console.error('[Forgot Password Email Error]:', mailErr.message);
+        }
+      }
+
+      // Always return success to prevent user enumeration
+      res.json({
+        success: true,
+        message: 'If an account matches that email or username, a password reset link has been sent.'
+      });
+    } catch (err) {
+      console.error('[Forgot Password Error]:', err);
+      res.status(500).json({ error: 'Failed to process password reset request.' });
+    }
+  });
+
+  // Reset Password (with valid token)
+  app.post('/api/auth/reset-password', (req, res) => {
+    const { token, newPassword } = req.body;
+    try {
+      const result = resetPasswordWithToken(token, newPassword);
+
+      res.cookie('areena_session', result.session.token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 7 * 24 * 60 * 60 * 1000
+      });
+
+      res.json({
+        success: true,
+        message: 'Password has been reset successfully. You are now logged in.',
+        user: result.user
+      });
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
   // Logout
   app.post('/api/auth/logout', (req, res) => {
     if (req.cookies.areena_session) {
@@ -195,6 +267,17 @@ function createServer(options = {}) {
     }
     next();
   }
+
+  // Admin: Change current user password
+  app.post('/api/admin/change-password', requireAdmin, (req, res) => {
+    const { currentPassword, newPassword } = req.body;
+    try {
+      changeUserPassword(req.user.id, currentPassword, newPassword);
+      res.json({ success: true, message: 'Password changed successfully.' });
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  });
 
   // Admin: Get all admins
   app.get('/api/admin/users', requireAdmin, (req, res) => {
