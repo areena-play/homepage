@@ -7,12 +7,12 @@
     "home": "Accueil",
     "project": "Projet",
     "features": "Fonctionnalités",
+    "partners": "Partenaires",
     "team": "Équipe",
     "status": "État Système",
     "contact": "Contact",
     "privacy": "Confidentialité",
-    "impressum": "Mentions Légales",
-    "getStarted": "Lancer AREENA"
+    "impressum": "Mentions Légales"
   },
   "hero": {
     "badge": "⚡ L'Avenir du Gaming Compétitif",
@@ -64,6 +64,21 @@
     "feat3Desc": "Pipelines de paiement automatisés et sécurisés garantissant une distribution rapide et transparente des récompenses aux vainqueurs.",
     "feat4Title": "API Développeurs & Webhooks",
     "feat4Desc": "SDK extensibles permettant aux studios de jeux et organisateurs d'intégrer facilement AREENA dans leurs propres jeux."
+  },
+  "partners": {
+    "badge": "ÉCOSYSTÈME & PARTENAIRES",
+    "title": "La confiance des leaders du sport et des tournois",
+    "subtitle": "AREENA propulse et s'intègre aux écosystèmes majeurs de compétition sportive, d'analyses et de gestion de tournois.",
+    "ttstatsTitle": "TTStats",
+    "ttstatsUrl": "ttstats.ch",
+    "ttstatsDesc": "La première plateforme suisse de statistiques, télémétrie et analyses de matchs de tennis de table.",
+    "ttturnierTitle": "TTT-Organizer",
+    "ttturnierUrl": "tt-turnier.ch",
+    "ttturnierDesc": "Logiciel complet d'organisation de tournois, de tableaux dynamiques et de gestion d'événements en direct.",
+    "ttmobileTitle": "TT-Mobile",
+    "ttmobileUrl": "tt-mobile.ch",
+    "ttmobileDesc": "L'application mobile suisse de référence pour les classements, calendriers et profils de tennis de table.",
+    "visitSite": "Visiter le site ↗"
   },
   "team": {
     "badge": "DERRIÈRE L'ARENA",

@@ -7,12 +7,12 @@
     "home": "Home",
     "project": "Project",
     "features": "Features",
+    "partners": "Partners",
     "team": "Team",
     "status": "System Status",
     "contact": "Contact",
     "privacy": "Privacy Policy",
-    "impressum": "Impressum",
-    "getStarted": "Launch AREENA"
+    "impressum": "Impressum"
   },
   "hero": {
     "badge": "⚡ The Future of Competitive Gaming",
@@ -64,6 +64,21 @@
     "feat3Desc": "Secure, automated tournament prize payout pipelines guaranteeing fast, transparent distribution to winners.",
     "feat4Title": "Developer API & Webhooks",
     "feat4Desc": "Extensible SDKs and webhook triggers allowing game studios and community organizers to embed AREENA into custom games."
+  },
+  "partners": {
+    "badge": "ECOSYSTEM & PARTNERS",
+    "title": "Trusted by Leading Sports & Tournament Platforms",
+    "subtitle": "AREENA powers and integrates with premier competitive sports, statistics, and tournament ecosystems.",
+    "ttstatsTitle": "TTStats",
+    "ttstatsUrl": "ttstats.ch",
+    "ttstatsDesc": "Switzerland's leading table tennis statistics, player telemetry, and match analytics platform.",
+    "ttturnierTitle": "TTT-Organizer",
+    "ttturnierUrl": "tt-turnier.ch",
+    "ttturnierDesc": "Comprehensive tournament organization, bracket orchestration, and live event management software.",
+    "ttmobileTitle": "TT-Mobile",
+    "ttmobileUrl": "tt-mobile.ch",
+    "ttmobileDesc": "The mobile companion app for live Swiss table tennis rankings, schedules, and player profiles.",
+    "visitSite": "Visit Website ↗"
   },
   "team": {
     "badge": "BEHIND THE ARENA",

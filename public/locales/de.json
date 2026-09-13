@@ -7,12 +7,12 @@
     "home": "Startseite",
     "project": "Projekt",
     "features": "Funktionen",
+    "partners": "Partner",
     "team": "Team",
     "status": "Systemstatus",
     "contact": "Kontakt",
     "privacy": "Datenschutz",
-    "impressum": "Impressum",
-    "getStarted": "AREENA Starten"
+    "impressum": "Impressum"
   },
   "hero": {
     "badge": "⚡ Die Zukunft des kompetitiven Gamings",
@@ -64,6 +64,21 @@
     "feat3Desc": "Sichere, automatisierte Auszahlungspipelines für Preisgelder garantieren eine schnelle und transparente Verteilung an die Gewinner.",
     "feat4Title": "Entwickler-API & Webhooks",
     "feat4Desc": "Erweiterbare SDKs und Webhook-Trigger ermöglichen es Entwicklerstudios und Organisatoren, AREENA direkt in Spiele einzubinden."
+  },
+  "partners": {
+    "badge": "ÖKOSYSTEM & PARTNER",
+    "title": "Vertrauen von führenden Sport- & Turnierplattformen",
+    "subtitle": "AREENA treibt erstklassige Ökosysteme für Wettkampfsport, Statistiken und Turniere an und integriert sich nahtlos.",
+    "ttstatsTitle": "TTStats",
+    "ttstatsUrl": "ttstats.ch",
+    "ttstatsDesc": "Die führende Schweizer Plattform für Tischtennis-Statistiken, Spieler-Telemetrie und Spielanalysen.",
+    "ttturnierTitle": "TTT-Organizer",
+    "ttturnierUrl": "tt-turnier.ch",
+    "ttturnierDesc": "Umfassende Software für Turnierorganisation, dynamische Turnierbäume und Live-Event-Management.",
+    "ttmobileTitle": "TT-Mobile",
+    "ttmobileUrl": "tt-mobile.ch",
+    "ttmobileDesc": "Die mobile Begleit-App für Schweizer Tischtennis-Ranglisten, Spielpläne und Spielerprofile.",
+    "visitSite": "Website besuchen ↗"
   },
   "team": {
     "badge": "HINTER DER ARENA",

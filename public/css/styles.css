@@ -557,17 +557,91 @@ a {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+  align-items: flex-start;
 }
 
 .status-badge-container img {
-  height: 22px;
+  height: 20px;
   width: auto;
-  border-radius: 4px;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 2px;
 }
 
 .status-footer-cta {
   text-align: center;
   margin-top: 2.5rem;
+}
+
+/* Partners Section */
+.partners-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.partner-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 2.25rem 2rem;
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+}
+
+.partner-card:hover {
+  border-color: var(--border-accent);
+  background: var(--bg-card-hover);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.partner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.partner-tag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  background: var(--bg-badge);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-accent);
+}
+
+.partner-title {
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.partner-desc {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.partner-link {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--accent-cyan);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+}
+
+.partner-link:hover {
+  color: var(--accent-blue);
+  transform: translateX(3px);
 }
 
 /* Project & Pillars Grid */
@@ -923,7 +997,8 @@ textarea.form-control {
 
 /* Responsive Media Queries */
 @media (max-width: 1024px) {
-  .team-grid {
+  .team-grid,
+  .partners-grid {
     grid-template-columns: repeat(2, 1fr);
   }
   .stats-grid,
@@ -939,6 +1014,7 @@ textarea.form-control {
   
   .pillars-grid,
   .features-grid,
+  .partners-grid,
   .contact-layout,
   .footer-grid {
     grid-template-columns: 1fr;
