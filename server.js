@@ -312,7 +312,7 @@ function createServer(options = {}) {
     const isMaintenance = getMaintenanceMode();
     if (isMaintenance && !req.user) {
       // Return maintenance page for public visitors during maintenance with HTTP 200
-      return res.status(503).type('html').send(renderPage(path.join(viewsDir, 'maintenance.html'), { isSubpage: true }));
+      return res.status(200).type('html').send(renderPage(path.join(viewsDir, 'maintenance.html'), { isSubpage: true }));
     }
     next();
   });
