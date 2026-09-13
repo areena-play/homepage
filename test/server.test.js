@@ -201,6 +201,13 @@ async function runTests() {
     assert.ok(impressumRes.data.includes('id="site-footer"'), 'Footer component must be injected into subpages');
     assert.ok(impressumRes.data.includes('href="/#partners"'), 'Subpages must prefix hash links with /');
 
+    const sttRes = await makeRequest('/swiss-table-tennis');
+    assert.strictEqual(sttRes.statusCode, 200);
+    assert.ok(sttRes.data.includes('id="site-navbar"'), 'Navbar component must be injected into swiss-table-tennis');
+    assert.ok(sttRes.data.includes('id="site-footer"'), 'Footer component must be injected into swiss-table-tennis');
+    assert.ok(sttRes.data.includes('data-i18n="stt.visionStatement"'), 'STT page must contain vision statement tag');
+    assert.ok(sttRes.data.includes('data-i18n="stt.mvpTitle"'), 'STT page must contain MVP section');
+
     assert.ok(publicRestoredRes.data.includes('id="site-navbar"'), 'Navbar component must be injected into home page');
     assert.ok(publicRestoredRes.data.includes('id="site-footer"'), 'Footer component must be injected into home page');
     assert.ok(publicRestoredRes.data.includes('href="#partners"'), 'Home page links must not have / prefix');
@@ -217,10 +224,11 @@ async function runTests() {
 
     // Verify Head Initializer component injection
     assert.ok(publicRestoredRes.data.includes('areena_theme'), 'head-init component must be injected into home page');
+    assert.ok(sttRes.data.includes('areena_theme'), 'head-init component must be injected into STT page');
     assert.ok(impressumRes.data.includes('areena_theme'), 'head-init component must be injected into subpages');
     assert.ok(privacyRes.data.includes('areena_theme'));
     assert.ok(notFoundRes.data.includes('areena_theme'));
-    console.log('  ✅ Reusable components (Navbar, Footer, and Zero-Flash Head-Init) rendered seamlessly across all routes');
+    console.log('  ✅ Reusable components (Navbar, Footer, and Zero-Flash Head-Init) rendered seamlessly across all routes including /swiss-table-tennis');
 
     // 12. Verify Comprehensive Privacy Policy and Locale Consistency
     assert.ok(privacyRes.data.includes('data-i18n="privacy.section12Title"'), 'Privacy policy must contain Section 12');
@@ -236,8 +244,11 @@ async function runTests() {
       assert.ok(locData.privacy.section12Text, `Locale ${lang} must have privacy.section12Text`);
       assert.ok(locData.privacy.right8, `Locale ${lang} must have privacy.right8`);
       assert.ok(locData.privacy.cat7Text, `Locale ${lang} must have privacy.cat7Text`);
+      assert.ok(locData.stt, `Locale ${lang} must have stt section`);
+      assert.ok(locData.stt.visionStatement, `Locale ${lang} must have stt.visionStatement`);
+      assert.ok(locData.stt.mvpTitle, `Locale ${lang} must have stt.mvpTitle`);
     }
-    console.log('  ✅ Comprehensive Privacy Policy (FADP / GDPR) and Multilingual Locales (EN, DE, FR, IT) fully verified');
+    console.log('  ✅ Comprehensive Privacy Policy (FADP / GDPR) and Multilingual Locales (EN, DE, FR, IT) including Swiss Table Tennis fully verified');
 
     // 13. Verify Deploy Restart Webhook Endpoint
     process.env.NODE_ENV = 'test';

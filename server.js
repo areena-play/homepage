@@ -405,6 +405,10 @@ function createServer(options = {}) {
     res.type('html').send(renderPage(path.join(viewsDir, 'index.html'), { isSubpage: false }));
   });
 
+  app.get(['/swiss-table-tennis', '/swiss-table-tennis.html'], (req, res) => {
+    res.type('html').send(renderPage(path.join(viewsDir, 'swiss-table-tennis.html'), { isSubpage: true }));
+  });
+
   app.get(['/impressum', '/impressum.html'], (req, res) => {
     res.type('html').send(renderPage(path.join(viewsDir, 'impressum.html'), { isSubpage: true }));
   });
