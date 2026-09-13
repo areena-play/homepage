@@ -239,6 +239,16 @@ async function runTests() {
     }
     console.log('  ✅ Comprehensive Privacy Policy (FADP / GDPR) and Multilingual Locales (EN, DE, FR, IT) fully verified');
 
+    // 13. Verify Deploy Restart Webhook Endpoint
+    process.env.NODE_ENV = 'test';
+    const unauthorizedRestart = await makeRequest('/api/deploy-restart');
+    assert.strictEqual(unauthorizedRestart.statusCode, 401);
+
+    const authorizedRestart = await makeRequest('/api/deploy-restart?secret=areena-deploy-restart');
+    assert.strictEqual(authorizedRestart.statusCode, 200);
+    assert.strictEqual(authorizedRestart.json().success, true);
+    console.log('  ✅ Auto-Deployment Restart Webhook endpoint verified');
+
     console.log('\n✨ All test suites passed successfully!\n');
     server.close(() => {
       try {

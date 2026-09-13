@@ -118,6 +118,26 @@ function createServer(options = {}) {
     }
   });
 
+  // Secure Auto-Deployment Process Restart Endpoint (Triggers clean Passenger respawn)
+  app.all('/api/deploy-restart', (req, res) => {
+    const providedSecret = req.headers['x-deploy-secret'] || req.query.secret || req.body?.secret;
+    const configuredSecret = process.env.DEPLOY_SECRET;
+
+    if (!providedSecret || providedSecret !== configuredSecret || !configuredSecret) {
+      return res.status(401).json({ error: 'Unauthorized: Invalid deploy secret.' });
+    }
+
+    res.json({ success: true, message: 'Server process is recycling for updated code...' });
+
+    // Allow response to flush, then cleanly exit so Passenger/PM2 supervisor immediately respawns fresh process
+    if (process.env.NODE_ENV !== 'test') {
+      setTimeout(() => {
+        console.log('🔄 Deployment restart triggered via /api/deploy-restart. Exiting process for supervisor respawn...');
+        process.exit(0);
+      }, 400);
+    }
+  });
+
   // First-Time Setup (Only allowed if no users exist)
   app.post('/api/setup', (req, res) => {
     if (hasUsers()) {
@@ -292,7 +312,7 @@ function createServer(options = {}) {
     const isMaintenance = getMaintenanceMode();
     if (isMaintenance && !req.user) {
       // Return maintenance page for public visitors during maintenance with HTTP 200
-      return res.status(503).type('html').send(renderPage(path.join(viewsDir, 'maintenance.html'), { isSubpage: true }));
+      return res.status(200).type('html').send(renderPage(path.join(viewsDir, 'maintenance.html'), { isSubpage: true }));
     }
     next();
   });
