@@ -14,6 +14,8 @@ const {
   destroySession,
   getMaintenanceMode,
   setMaintenanceMode,
+  getShowStatusSection,
+  setShowStatusSection,
   getEmailSettings,
   saveEmailSettings,
   getTurnstileSettings,
@@ -78,11 +80,13 @@ function createServer(options = {}) {
   app.get('/api/status', (req, res) => {
     const setupNeeded = !hasUsers();
     const isMaintenance = getMaintenanceMode();
+    const showStatus = getShowStatusSection();
     const { turnstileSiteKey } = getTurnstileSettings();
 
     res.json({
       needsSetup: setupNeeded,
       maintenanceMode: isMaintenance,
+      showStatusSection: showStatus,
       turnstileSiteKey: turnstileSiteKey || null,
       isAuthenticated: !!req.user,
       user: req.user ? { id: req.user.id, username: req.user.username, email: req.user.email } : null
@@ -314,6 +318,13 @@ function createServer(options = {}) {
     res.json({ success: true, maintenanceMode: updated });
   });
 
+  // Admin: Toggle Live Status Section Visibility
+  app.post('/api/admin/status-section', requireAdmin, (req, res) => {
+    const { enabled } = req.body;
+    const updated = setShowStatusSection(!!enabled);
+    res.json({ success: true, showStatusSection: updated });
+  });
+
   // Admin: Get Email Settings
   app.get('/api/admin/email-settings', requireAdmin, (req, res) => {
     const settings = getEmailSettings();
@@ -402,7 +413,14 @@ function createServer(options = {}) {
 
   // Dedicated Pages
   app.get(['/', '/index.html'], (req, res) => {
-    res.type('html').send(renderPage(path.join(viewsDir, 'index.html'), { isSubpage: false }));
+    const showStatus = getShowStatusSection();
+    let html = renderPage(path.join(viewsDir, 'index.html'), { isSubpage: false });
+    if (!showStatus) {
+      html = html.replace(/<!-- Live Status Section[\s\S]*?<\/section>/i, '');
+      html = html.replace(/<li\s+class="nav-item">\s*<a\s+href="[^"]*#status"[^>]*>[\s\S]*?<\/li>/gi, '');
+      html = html.replace(/<li>\s*<a\s+href="[^"]*#status"[^>]*>[\s\S]*?<\/li>/gi, '');
+    }
+    res.type('html').send(html);
   });
 
   app.get(['/swiss-table-tennis', '/swiss-table-tennis.html'], (req, res) => {

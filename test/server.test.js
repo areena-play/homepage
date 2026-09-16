@@ -194,6 +194,37 @@ async function runTests() {
     assert.ok(publicRestoredRes.data.includes('/admin'));
     console.log('  ✅ Maintenance Mode deactivated: Public site is live (200) with /admin footer link');
 
+    // 9b. Live Status Section Visibility Toggle
+    const statusInitial = await makeRequest('/api/status');
+    assert.strictEqual(statusInitial.json().showStatusSection, true, 'Status section must be visible by default');
+    assert.ok(publicRestoredRes.data.includes('id="status"'), 'Home page must render status section when enabled');
+
+    // Hide status section
+    const hideStatusRes = await makeRequest('/api/admin/status-section', {
+      method: 'POST',
+      headers: { Cookie: loginCookie },
+      body: JSON.stringify({ enabled: false })
+    });
+    assert.strictEqual(hideStatusRes.statusCode, 200);
+    assert.strictEqual(hideStatusRes.json().showStatusSection, false);
+
+    const statusAfterHide = await makeRequest('/api/status');
+    assert.strictEqual(statusAfterHide.json().showStatusSection, false);
+
+    const publicHiddenStatusRes = await makeRequest('/');
+    assert.strictEqual(publicHiddenStatusRes.statusCode, 200);
+    assert.ok(!publicHiddenStatusRes.data.includes('id="status"'), 'Home page must not include status section when disabled');
+
+    // Restore status section
+    const showStatusRes = await makeRequest('/api/admin/status-section', {
+      method: 'POST',
+      headers: { Cookie: loginCookie },
+      body: JSON.stringify({ enabled: true })
+    });
+    assert.strictEqual(showStatusRes.statusCode, 200);
+    assert.strictEqual(showStatusRes.json().showStatusSection, true);
+    console.log('  ✅ Live Status Section visibility toggle verified (admin endpoint, /api/status, and homepage rendering)');
+
     // 10. Dedicated Pages, 404 checks & Reusable Component Injection
     const impressumRes = await makeRequest('/impressum');
     assert.strictEqual(impressumRes.statusCode, 200);

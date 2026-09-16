@@ -391,6 +391,27 @@
         </div>
       </div>
 
+      <!-- Live Status Section Visibility Section -->
+      <div class="admin-card">
+        <h2 style="font-size: 1.4rem; margin-bottom: 0.5rem;" data-i18n="admin.statusSectionToggle">Live Status Section</h2>
+        <p style="color: var(--text-secondary); font-size: 0.95rem;" data-i18n="admin.statusSectionDesc">
+          Show or hide the "Platform Health &amp; Service Status" live telemetry section on the homepage.
+        </p>
+
+        <div class="toggle-switch-wrapper">
+          <div>
+            <div id="status-section-pill" class="status-pill active">
+              <span class="status-dot"></span>
+              <span id="status-section-status-text" data-i18n="admin.statusSectionVisible">Status section is VISIBLE</span>
+            </div>
+          </div>
+          <label class="switch" aria-label="Toggle Live Status Section Visibility">
+            <input type="checkbox" id="status-section-toggle-switch" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
       <!-- Mailgun Email Configuration Section -->
       <div class="admin-card">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
@@ -688,9 +709,26 @@
         }
       }
 
+      function updateStatusSectionUI(isVisible) {
+        const toggle = document.getElementById('status-section-toggle-switch');
+        const pill = document.getElementById('status-section-pill');
+        const text = document.getElementById('status-section-status-text');
+        const curDict = window.I18nManager ? window.I18nManager.getLoadedDictionary() : null;
+
+        toggle.checked = isVisible;
+        if (isVisible) {
+          pill.className = 'status-pill active';
+          text.textContent = curDict?.admin?.statusSectionVisible || 'Status section is VISIBLE';
+        } else {
+          pill.className = 'status-pill inactive';
+          text.textContent = curDict?.admin?.statusSectionHidden || 'Status section is HIDDEN';
+        }
+      }
+
       async function renderDashboard(data) {
         document.getElementById('admin-user-display').textContent = data.user?.username || 'Admin';
         updateMaintenanceUI(data.maintenanceMode);
+        updateStatusSectionUI(data.showStatusSection !== false);
         await Promise.all([loadAdminUsers(), loadEmailSettings(), loadTurnstileSettings()]);
       }
 
@@ -951,6 +989,27 @@
           } catch (err) {
             showToast('dashboard-error', 'Failed to toggle maintenance mode.');
             maintenanceSwitch.checked = !enabled;
+          }
+        });
+      }
+
+      // Status Section Switch
+      const statusSectionSwitch = document.getElementById('status-section-toggle-switch');
+      if (statusSectionSwitch) {
+        statusSectionSwitch.addEventListener('change', async () => {
+          const enabled = statusSectionSwitch.checked;
+          try {
+            const res = await fetch('/api/admin/status-section', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ enabled })
+            });
+            const result = await res.json();
+            updateStatusSectionUI(result.showStatusSection);
+            showToast('dashboard-toast', result.showStatusSection ? 'Live status section is now visible on homepage.' : 'Live status section is now hidden on homepage.');
+          } catch (err) {
+            showToast('dashboard-error', 'Failed to update status section visibility.');
+            statusSectionSwitch.checked = !enabled;
           }
         });
       }

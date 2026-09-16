@@ -208,6 +208,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (statusRes.ok) {
       const statusData = await statusRes.json();
       
+      // Dynamic Status Section Visibility
+      const statusSection = document.getElementById('status');
+      const statusNavLinks = document.querySelectorAll('a[href*="#status"]');
+      if (statusData.showStatusSection === false) {
+        if (statusSection) statusSection.style.display = 'none';
+        statusNavLinks.forEach(link => {
+          const parentLi = link.closest('li');
+          if (parentLi) parentLi.style.display = 'none';
+          else link.style.display = 'none';
+        });
+      } else {
+        if (statusSection) statusSection.style.display = '';
+        statusNavLinks.forEach(link => {
+          const parentLi = link.closest('li');
+          if (parentLi) parentLi.style.display = '';
+          else link.style.display = '';
+        });
+      }
+
       // 1. First-Time Setup Prompt
       if (statusData.needsSetup && !window.location.pathname.startsWith('/admin')) {
         const curDict = window.I18nManager ? window.I18nManager.getLoadedDictionary() : null;
