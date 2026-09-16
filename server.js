@@ -411,28 +411,72 @@ function createServer(options = {}) {
     next();
   });
 
+  // 301 Permanent Redirect for legacy ?lang= query parameters on public HTML pages
+  const SUPPORTED_LANGS = ['de', 'fr', 'it', 'en'];
+  app.use((req, res, next) => {
+    if (req.method === 'GET' && req.query.lang && !req.path.startsWith('/api') && !req.path.startsWith('/admin')) {
+      const qLang = req.query.lang.toLowerCase();
+      if (SUPPORTED_LANGS.includes(qLang)) {
+        let cleanPath = req.path;
+        const prefixMatch = cleanPath.match(/^\/(de|fr|it|en)(\/.*|$)/);
+        if (prefixMatch) {
+          cleanPath = prefixMatch[2] || '/';
+        }
+        if (!cleanPath.startsWith('/')) cleanPath = '/' + cleanPath;
+        if (cleanPath === '/index.html') cleanPath = '/';
+
+        const targetPath = qLang === 'en' ? cleanPath : (cleanPath === '/' ? `/${qLang}` : `/${qLang}${cleanPath}`);
+
+        const queryCopy = { ...req.query };
+        delete queryCopy.lang;
+        const qs = new URLSearchParams(queryCopy).toString();
+        const redirectUrl = targetPath + (qs ? `?${qs}` : '');
+
+        return res.redirect(301, redirectUrl);
+      }
+    }
+    next();
+  });
+
   // Dedicated Pages
-  app.get(['/', '/index.html'], (req, res) => {
+  function serveIndex(req, res, lang = 'en') {
     const showStatus = getShowStatusSection();
-    let html = renderPage(path.join(viewsDir, 'index.html'), { isSubpage: false });
+    let html = renderPage(path.join(viewsDir, 'index.html'), { isSubpage: false, lang });
     if (!showStatus) {
       html = html.replace(/<!-- Live Status Section[\s\S]*?<\/section>/i, '');
       html = html.replace(/<li\s+class="nav-item">\s*<a\s+href="[^"]*#status"[^>]*>[\s\S]*?<\/li>/gi, '');
       html = html.replace(/<li>\s*<a\s+href="[^"]*#status"[^>]*>[\s\S]*?<\/li>/gi, '');
     }
     res.type('html').send(html);
-  });
+  }
 
+  // Home Page routes (default and localized)
+  app.get(['/', '/index.html'], (req, res) => serveIndex(req, res, 'en'));
+  app.get('/:lang(de|fr|it|en)', (req, res) => serveIndex(req, res, req.params.lang));
+  app.get('/:lang(de|fr|it|en)/index.html', (req, res) => serveIndex(req, res, req.params.lang));
+
+  // Swiss Table Tennis routes
   app.get(['/swiss-table-tennis', '/swiss-table-tennis.html'], (req, res) => {
-    res.type('html').send(renderPage(path.join(viewsDir, 'swiss-table-tennis.html'), { isSubpage: true }));
+    res.type('html').send(renderPage(path.join(viewsDir, 'swiss-table-tennis.html'), { isSubpage: true, lang: 'en' }));
+  });
+  app.get(['/:lang(de|fr|it|en)/swiss-table-tennis', '/:lang(de|fr|it|en)/swiss-table-tennis.html'], (req, res) => {
+    res.type('html').send(renderPage(path.join(viewsDir, 'swiss-table-tennis.html'), { isSubpage: true, lang: req.params.lang }));
   });
 
+  // Impressum routes
   app.get(['/impressum', '/impressum.html'], (req, res) => {
-    res.type('html').send(renderPage(path.join(viewsDir, 'impressum.html'), { isSubpage: true }));
+    res.type('html').send(renderPage(path.join(viewsDir, 'impressum.html'), { isSubpage: true, lang: 'en' }));
+  });
+  app.get(['/:lang(de|fr|it|en)/impressum', '/:lang(de|fr|it|en)/impressum.html'], (req, res) => {
+    res.type('html').send(renderPage(path.join(viewsDir, 'impressum.html'), { isSubpage: true, lang: req.params.lang }));
   });
 
+  // Privacy Policy routes
   app.get(['/privacy-policy', '/privacy', '/privacy-policy.html'], (req, res) => {
-    res.type('html').send(renderPage(path.join(viewsDir, 'privacy-policy.html'), { isSubpage: true }));
+    res.type('html').send(renderPage(path.join(viewsDir, 'privacy-policy.html'), { isSubpage: true, lang: 'en' }));
+  });
+  app.get(['/:lang(de|fr|it|en)/privacy-policy', '/:lang(de|fr|it|en)/privacy', '/:lang(de|fr|it|en)/privacy-policy.html'], (req, res) => {
+    res.type('html').send(renderPage(path.join(viewsDir, 'privacy-policy.html'), { isSubpage: true, lang: req.params.lang }));
   });
 
   // 404 Fallback

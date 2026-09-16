@@ -7,14 +7,17 @@
       document.documentElement.setAttribute('data-theme', theme);
       document.documentElement.classList.add('preload');
 
+      var supported = ['en', 'de', 'fr', 'it'];
+      var pathParts = window.location.pathname.split('/').filter(Boolean);
+      var pathLang = (pathParts[0] && supported.includes(pathParts[0].toLowerCase())) ? pathParts[0].toLowerCase() : null;
       var params = new URLSearchParams(window.location.search);
       var langParam = params.get('lang');
-      var supported = ['en', 'de', 'fr', 'it'];
       var savedLang = localStorage.getItem('areena_lang');
       var browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
-      var lang = (langParam && supported.includes(langParam.toLowerCase())) ? langParam.toLowerCase()
-               : (savedLang && supported.includes(savedLang)) ? savedLang
-               : (supported.includes(browserLang)) ? browserLang : 'en';
+      var lang = pathLang
+               || (langParam && supported.includes(langParam.toLowerCase()) ? langParam.toLowerCase() : null)
+               || (savedLang && supported.includes(savedLang) ? savedLang : null)
+               || (supported.includes(browserLang) ? browserLang : 'en');
 
       document.documentElement.lang = lang;
       if (lang !== 'en') {

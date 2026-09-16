@@ -303,6 +303,34 @@ async function runTests() {
     assert.ok(publicRestoredRes.data.includes('@context": "https://schema.org"'), 'Home page must have JSON-LD structured data');
     console.log('  ✅ SEO infrastructure verified (robots.txt, sitemap.xml, site.webmanifest, Open Graph, Twitter cards, JSON-LD schema)');
 
+    // 12c. Verify Multilingual URL Routing (/de/, /fr/, /it/, /en/) and 301 Redirects
+    const deHomeRes = await makeRequest('/de');
+    assert.strictEqual(deHomeRes.statusCode, 200);
+    assert.ok(deHomeRes.data.includes('lang="de"'), 'German home page must have lang="de"');
+
+    const frSttRes = await makeRequest('/fr/swiss-table-tennis');
+    assert.strictEqual(frSttRes.statusCode, 200);
+    assert.ok(frSttRes.data.includes('lang="fr"'), 'French STT page must have lang="fr"');
+
+    const itImpressumRes = await makeRequest('/it/impressum');
+    assert.strictEqual(itImpressumRes.statusCode, 200);
+    assert.ok(itImpressumRes.data.includes('lang="it"'), 'Italian impressum page must have lang="it"');
+
+    const dePrivacyRes = await makeRequest('/de/privacy-policy');
+    assert.strictEqual(dePrivacyRes.statusCode, 200);
+    assert.ok(dePrivacyRes.data.includes('lang="de"'), 'German privacy page must have lang="de"');
+
+    // Query parameter 301 redirects
+    const queryRedirectHome = await makeRequest('/?lang=de');
+    assert.strictEqual(queryRedirectHome.statusCode, 301);
+    assert.strictEqual(queryRedirectHome.headers.location, '/de');
+
+    const queryRedirectStt = await makeRequest('/swiss-table-tennis?lang=fr');
+    assert.strictEqual(queryRedirectStt.statusCode, 301);
+    assert.strictEqual(queryRedirectStt.headers.location, '/fr/swiss-table-tennis');
+
+    console.log('  ✅ Multilingual URL Prefixes (/de, /fr, /it, /en) & 301 Redirects verified successfully');
+
     // 13. Verify Deploy Restart Webhook Endpoint
     process.env.NODE_ENV = 'test';
     const unauthorizedRestart = await makeRequest('/api/deploy-restart');

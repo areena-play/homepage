@@ -12,6 +12,11 @@ const I18nManager = (() => {
   };
 
   function getInitialLanguage() {
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+    if (pathParts.length > 0 && supportedLangs.includes(pathParts[0].toLowerCase())) {
+      return pathParts[0].toLowerCase();
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const langParam = urlParams.get('lang');
     if (langParam && supportedLangs.includes(langParam.toLowerCase())) {
@@ -109,6 +114,28 @@ const I18nManager = (() => {
       }
     }
 
+    // Update internal subpage and anchor links to match active language prefix
+    const langPrefix = lang === 'en' ? '' : `/${lang}`;
+    document.querySelectorAll('a[href]').forEach(a => {
+      const href = a.getAttribute('href');
+      if (!href || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('#') || href.startsWith('/api') || href.startsWith('/admin')) {
+        return;
+      }
+      // Clean previous lang prefix if present
+      let clean = href.replace(/^\/(de|fr|it|en)(\/|$)/, '/');
+      if (!clean.startsWith('/')) clean = '/' + clean;
+      
+      if (clean === '/swiss-table-tennis') {
+        a.setAttribute('href', langPrefix ? `${langPrefix}/swiss-table-tennis` : '/swiss-table-tennis');
+      } else if (clean === '/impressum') {
+        a.setAttribute('href', langPrefix ? `${langPrefix}/impressum` : '/impressum');
+      } else if (clean === '/privacy-policy' || clean === '/privacy') {
+        a.setAttribute('href', langPrefix ? `${langPrefix}/privacy-policy` : '/privacy-policy');
+      } else if (clean.startsWith('/#')) {
+        a.setAttribute('href', langPrefix ? `${langPrefix}${clean.substring(1)}` : clean);
+      }
+    });
+
     // Update standard data-i18n nodes
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
@@ -146,7 +173,7 @@ const I18nManager = (() => {
     });
   }
 
-  async function setLanguage(lang) {
+  async function setLanguage(lang, updateUrl = true) {
     if (!supportedLangs.includes(lang)) {
       lang = 'en';
     }
@@ -154,6 +181,27 @@ const I18nManager = (() => {
     currentLang = lang;
     localStorage.setItem('areena_lang', lang);
     document.documentElement.lang = lang;
+
+    // Update browser URL without reloading page if on a public route
+    if (updateUrl && window.history && window.history.pushState) {
+      let pathWithoutLang = window.location.pathname;
+      const match = pathWithoutLang.match(/^\/(de|fr|it|en)(\/.*|$)/);
+      if (match) {
+        pathWithoutLang = match[2] || '/';
+      }
+      if (!pathWithoutLang.startsWith('/')) pathWithoutLang = '/' + pathWithoutLang;
+      if (pathWithoutLang === '/index.html') pathWithoutLang = '/';
+
+      const isPublicRoute = ['/', '/swiss-table-tennis', '/impressum', '/privacy-policy', '/privacy'].includes(pathWithoutLang);
+      if (isPublicRoute) {
+        const newPrefix = lang === 'en' ? '' : `/${lang}`;
+        const newPath = (newPrefix + (pathWithoutLang === '/' ? (newPrefix ? '' : '/') : pathWithoutLang)) || '/';
+        const finalUrl = newPath + window.location.search + window.location.hash;
+        if (window.location.pathname !== newPath) {
+          window.history.pushState(null, '', finalUrl);
+        }
+      }
+    }
 
     // Fast path: if we already have it in memory or cache, apply immediately
     const dict = await fetchLocale(lang);

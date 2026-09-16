@@ -75,6 +75,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         langDropdown.classList.remove('open');
       }
     });
+
+    // Sync language when navigating via browser back/forward history
+    window.addEventListener('popstate', async () => {
+      if (window.I18nManager) {
+        const lang = window.I18nManager.getInitialLanguage();
+        await window.I18nManager.setLanguage(lang, false);
+      }
+    });
   }
 
   // Mobile Navigation Toggle
