@@ -92,12 +92,20 @@ const I18nManager = (() => {
       }
     });
 
-    // Update meta tags
+    // Update meta tags & Open Graph
     if (dict.meta) {
       if (dict.meta.title) document.title = dict.meta.title;
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc && dict.meta.description) {
         metaDesc.setAttribute('content', dict.meta.description);
+      }
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle && dict.meta.title) {
+        ogTitle.setAttribute('content', dict.meta.title);
+      }
+      const ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc && dict.meta.description) {
+        ogDesc.setAttribute('content', dict.meta.description);
       }
     }
 

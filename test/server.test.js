@@ -281,6 +281,28 @@ async function runTests() {
     }
     console.log('  ✅ Comprehensive Privacy Policy (FADP / GDPR) and Multilingual Locales (EN, DE, FR, IT) including Swiss Table Tennis fully verified');
 
+    // 12b. Verify SEO Infrastructure (robots.txt, sitemap.xml, site.webmanifest, Open Graph, Schema.org)
+    const robotsRes = await makeRequest('/robots.txt');
+    assert.strictEqual(robotsRes.statusCode, 200);
+    assert.ok(robotsRes.data.includes('Sitemap: https://areena.ch/sitemap.xml'), 'robots.txt must declare sitemap');
+    assert.ok(robotsRes.data.includes('Disallow: /admin'), 'robots.txt must protect admin');
+
+    const sitemapRes = await makeRequest('/sitemap.xml');
+    assert.strictEqual(sitemapRes.statusCode, 200);
+    assert.ok(sitemapRes.data.includes('<urlset'), 'sitemap.xml must be valid urlset');
+    assert.ok(sitemapRes.data.includes('https://areena.ch/swiss-table-tennis'), 'sitemap must list STT page');
+
+    const manifestRes = await makeRequest('/site.webmanifest');
+    assert.strictEqual(manifestRes.statusCode, 200);
+    assert.ok(manifestRes.json() && manifestRes.json().name.includes('AREENA'), 'manifest must contain app name');
+
+    // Verify Open Graph & Schema.org on home page
+    assert.ok(publicRestoredRes.data.includes('property="og:title"'), 'Home page must have og:title');
+    assert.ok(publicRestoredRes.data.includes('name="twitter:card"'), 'Home page must have twitter:card');
+    assert.ok(publicRestoredRes.data.includes('rel="canonical"'), 'Home page must have canonical tag');
+    assert.ok(publicRestoredRes.data.includes('@context": "https://schema.org"'), 'Home page must have JSON-LD structured data');
+    console.log('  ✅ SEO infrastructure verified (robots.txt, sitemap.xml, site.webmanifest, Open Graph, Twitter cards, JSON-LD schema)');
+
     // 13. Verify Deploy Restart Webhook Endpoint
     process.env.NODE_ENV = 'test';
     const unauthorizedRestart = await makeRequest('/api/deploy-restart');

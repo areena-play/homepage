@@ -1,0 +1,21 @@
+# Robots.txt for AREENA (https://areena.ch)
+User-agent: *
+Allow: /
+Allow: /swiss-table-tennis
+Allow: /privacy-policy
+Allow: /impressum
+Allow: /assets/
+Allow: /css/
+Allow: /js/
+Allow: /locales/
+
+# Disallow administrative, internal, and private API routes
+Disallow: /admin
+Disallow: /admin.html
+Disallow: /api/
+Disallow: /maintenance
+Disallow: /maintenance.html
+
+# Canonical Sitemap
+Sitemap: https://areena.ch/sitemap.xml
+

@@ -4,16 +4,92 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="AREENA — Advanced Resources and Event Engine for Next-Gen Associations. Unified cloud platform for sports federations, leagues, clubs, and players.">
+  <meta name="keywords" content="sports association software, tournament management, league management, swiss table tennis, elo rating, digital matchsheet, club administration, sports federation platform">
+  <meta name="author" content="AREENA">
   <meta name="theme-color" content="#0a0d14">
+
+  <!-- Canonical & Multilingual Alternates -->
+  <link rel="canonical" href="https://areena.ch/">
+  <link rel="alternate" hreflang="x-default" href="https://areena.ch/">
+  <link rel="alternate" hreflang="en" href="https://areena.ch/?lang=en">
+  <link rel="alternate" hreflang="de" href="https://areena.ch/?lang=de">
+  <link rel="alternate" hreflang="fr" href="https://areena.ch/?lang=fr">
+  <link rel="alternate" hreflang="it" href="https://areena.ch/?lang=it">
+
+  <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://areena.ch/">
+  <meta property="og:site_name" content="AREENA">
+  <meta property="og:title" content="AREENA — Unified Digital Platform for Sports Associations">
+  <meta property="og:description" content="Cloud-native single source of truth for sports federations, leagues, clubs, and athletes. Automated tournaments, digital licensing, live telemetry, and open APIs.">
+  <meta property="og:image" content="https://areena.ch/assets/areena-logo-dark.png">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="de_CH">
+  <meta property="og:locale:alternate" content="fr_CH">
+  <meta property="og:locale:alternate" content="it_CH">
+
+  <!-- Twitter / X Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AREENA — Unified Digital Platform for Sports Associations">
+  <meta name="twitter:description" content="Cloud-native single source of truth for sports federations, leagues, clubs, and athletes across racket, ball, digital, and precision sports.">
+  <meta name="twitter:image" content="https://areena.ch/assets/areena-logo-dark.png">
+
   <title>AREENA — Next-Gen Sports Association Platform</title>
   
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="alternate icon" href="/favicon.ico">
+  <link rel="manifest" href="/site.webmanifest">
   
   <!-- Reusable Zero-Flash Theme & Language Initializer Component -->
   <component name="head-init"></component>
 
   <link rel="stylesheet" href="/css/styles.css">
+
+  <!-- JSON-LD Structured Data (Schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://areena.ch/#organization",
+        "name": "AREENA",
+        "url": "https://areena.ch",
+        "logo": "https://areena.ch/assets/areena-logo-dark.png",
+        "sameAs": [
+          "https://status.areena.ch"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "email": "contact@areena.ch",
+          "contactType": "customer support",
+          "areaServed": "CH"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://areena.ch/#website",
+        "url": "https://areena.ch",
+        "name": "AREENA",
+        "publisher": { "@id": "https://areena.ch/#organization" },
+        "inLanguage": ["en", "de", "fr", "it"]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://areena.ch/#software",
+        "name": "AREENA Sports Operating System",
+        "applicationCategory": "BusinessApplication, SportsApplication",
+        "operatingSystem": "Web, Cloud, iOS, Android",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "CHF"
+        },
+        "description": "Enterprise cloud platform for sports federations, leagues, clubs, and tournaments with automated scheduling, digital licenses, and live scoring."
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 

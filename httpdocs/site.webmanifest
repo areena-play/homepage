@@ -1,0 +1,22 @@
+{
+  "name": "AREENA — Sports Association Operating System",
+  "short_name": "AREENA",
+  "description": "Unified digital operating system for sports associations, federations, leagues, clubs, and players.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0d14",
+  "theme_color": "#0a0d14",
+  "icons": [
+    {
+      "src": "/assets/areena-logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/areena-logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+
