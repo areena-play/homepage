@@ -376,7 +376,23 @@
     "tagline": "Die einheitliche digitale Plattform für moderne Sportverbände und Vereine.",
     "quickLinks": "Schnellzugriff",
     "legal": "Rechtliches & Externes",
+    "cookieSettings": "Cookie-Einstellungen",
     "copyright": "© 2026 AREENA. Alle Rechte vorbehalten."
+  },
+  "cookieConsent": {
+    "bannerTitle": "Cookie- & Datenschutzeinstellungen",
+    "bannerDesc": "Wir verwenden zwingend erforderliche Cookies für Zuverlässigkeit und Sicherheit. Mit Ihrer Zustimmung nutzen wir auch Analyse-Cookies (Google Analytics) zur kontinuierlichen Verbesserung des Nutzererlebnisses.",
+    "customize": "Einstellungen",
+    "decline": "Ablehnen",
+    "acceptAll": "Alle akzeptieren",
+    "modalTitle": "Cookie-Präferenzen",
+    "modalDesc": "Passen Sie an, welche Cookies Sie zulassen möchten. Zwingend erforderliche Cookies können nicht deaktiviert werden, da sie für den Betrieb der Website notwendig sind.",
+    "catEssentialTitle": "Zwingend erforderliche Cookies",
+    "catEssentialDesc": "Erforderlich für Sicherheit, Theme-Einstellungen, mehrsprachiges Routing und Sitzungs-Authentifizierung.",
+    "alwaysActive": "Immer aktiv",
+    "catAnalyticsTitle": "Analyse & Performance (Google Analytics)",
+    "catAnalyticsDesc": "Hilft uns durch anonymisierte Telemetrie zu verstehen, wie AREENA genutzt wird. Bei Deaktivierung werden keinerlei Analysedaten oder Tracking-Cookies erfasst.",
+    "savePreferences": "Einstellungen speichern"
   },
   "notFound": {
     "title": "404 — Seite Nicht Gefunden",

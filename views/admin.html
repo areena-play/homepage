@@ -502,6 +502,48 @@
         </form>
       </div>
 
+      <!-- Google Analytics 4 Telemetry Section -->
+      <div class="admin-card">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+          <div>
+            <h2 style="font-size: 1.4rem; margin-bottom: 0.25rem;">📊 Google Analytics 4 &amp; Telemetry</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+              Configure Google Analytics 4 (GA4) with automated GDPR/revDSG Consent Mode v2 and cookie consent enforcement.
+            </p>
+          </div>
+          <a href="https://analytics.google.com/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.4rem 0.85rem;">
+            Google Analytics ↗
+          </a>
+        </div>
+
+        <form id="analytics-settings-form">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="ga-measurement-id">GA4 Measurement ID</label>
+              <input type="text" id="ga-measurement-id" class="form-control" placeholder="G-XXXXXXXXXX">
+              <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 0.25rem;">Your Google Analytics 4 Data Stream Measurement ID (e.g., G-1234567890)</small>
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: column; justify-content: center;">
+              <label class="form-label" style="margin-bottom: 0.5rem;">Enable Analytics Tracking</label>
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-top: 0.25rem;">
+                <label class="switch" aria-label="Toggle Google Analytics Enabled">
+                  <input type="checkbox" id="ga-enabled-switch">
+                  <span class="slider"></span>
+                </label>
+                <span id="ga-status-label" style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary);">Disabled</span>
+              </div>
+              <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 0.5rem;">When enabled, visitors will only be tracked if they accept analytical cookies.</small>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+            <button type="submit" class="btn btn-primary" style="padding: 0.65rem 1.5rem; font-size: 0.9rem;">
+              Save Analytics Settings
+            </button>
+          </div>
+        </form>
+      </div>
+
       <!-- Admin Users Section -->
       <div class="admin-card">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
@@ -731,7 +773,63 @@
         document.getElementById('admin-user-display').textContent = data.user?.username || 'Admin';
         updateMaintenanceUI(data.maintenanceMode);
         updateStatusSectionUI(data.showStatusSection !== false);
-        await Promise.all([loadAdminUsers(), loadEmailSettings(), loadTurnstileSettings()]);
+        await Promise.all([loadAdminUsers(), loadEmailSettings(), loadTurnstileSettings(), loadAnalyticsSettings()]);
+      }
+
+      async function loadAnalyticsSettings() {
+        try {
+          const res = await fetch('/api/admin/analytics-settings');
+          if (!res.ok) return;
+          const settings = await res.json();
+          document.getElementById('ga-measurement-id').value = settings.gaMeasurementId || '';
+          const enabledSwitch = document.getElementById('ga-enabled-switch');
+          enabledSwitch.checked = !!settings.gaEnabled;
+          updateGaStatusLabel(settings.gaEnabled);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      function updateGaStatusLabel(isEnabled) {
+        const label = document.getElementById('ga-status-label');
+        if (label) {
+          label.textContent = isEnabled ? 'Active (Tracking Enabled)' : 'Disabled';
+          label.style.color = isEnabled ? 'var(--accent-emerald, #10b981)' : 'var(--text-secondary)';
+        }
+      }
+
+      const gaEnabledSwitch = document.getElementById('ga-enabled-switch');
+      if (gaEnabledSwitch) {
+        gaEnabledSwitch.addEventListener('change', (e) => {
+          updateGaStatusLabel(e.target.checked);
+        });
+      }
+
+      // Analytics Settings Submit
+      const analyticsSettingsForm = document.getElementById('analytics-settings-form');
+      if (analyticsSettingsForm) {
+        analyticsSettingsForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const gaMeasurementId = document.getElementById('ga-measurement-id').value;
+          const gaEnabled = document.getElementById('ga-enabled-switch').checked;
+
+          try {
+            const res = await fetch('/api/admin/analytics-settings', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ gaMeasurementId, gaEnabled })
+            });
+            const result = await res.json();
+            if (res.ok) {
+              showToast('dashboard-toast', 'Analytics settings saved successfully.');
+              updateGaStatusLabel(result.settings.gaEnabled);
+            } else {
+              showToast('dashboard-error', result.error || 'Failed to save analytics settings.');
+            }
+          } catch (err) {
+            showToast('dashboard-error', 'Network error.');
+          }
+        });
       }
 
       async function loadTurnstileSettings() {

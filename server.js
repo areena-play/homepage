@@ -20,6 +20,8 @@ const {
   saveEmailSettings,
   getTurnstileSettings,
   saveTurnstileSettings,
+  getAnalyticsSettings,
+  saveAnalyticsSettings,
   changeUserPassword,
   createPasswordResetToken,
   resetPasswordWithToken
@@ -76,18 +78,23 @@ function createServer(options = {}) {
 
   // --- API Routes ---
 
-  // Platform Status & Auth State (Provides public Turnstile Site Key)
+  // Platform Status & Auth State (Provides public Turnstile Site Key & Analytics)
   app.get('/api/status', (req, res) => {
     const setupNeeded = !hasUsers();
     const isMaintenance = getMaintenanceMode();
     const showStatus = getShowStatusSection();
     const { turnstileSiteKey } = getTurnstileSettings();
+    const { gaMeasurementId, gaEnabled } = getAnalyticsSettings();
 
     res.json({
       needsSetup: setupNeeded,
       maintenanceMode: isMaintenance,
       showStatusSection: showStatus,
       turnstileSiteKey: turnstileSiteKey || null,
+      analytics: {
+        gaMeasurementId: gaEnabled ? gaMeasurementId : '',
+        gaEnabled: !!gaEnabled
+      },
       isAuthenticated: !!req.user,
       user: req.user ? { id: req.user.id, username: req.user.username, email: req.user.email } : null
     });
@@ -383,6 +390,23 @@ function createServer(options = {}) {
     const { turnstileSiteKey, turnstileSecretKey } = req.body;
     try {
       const saved = saveTurnstileSettings({ turnstileSiteKey, turnstileSecretKey });
+      res.json({ success: true, settings: saved });
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  // Admin: Get Google Analytics Settings
+  app.get('/api/admin/analytics-settings', requireAdmin, (req, res) => {
+    const settings = getAnalyticsSettings();
+    res.json(settings);
+  });
+
+  // Admin: Save Google Analytics Settings
+  app.post('/api/admin/analytics-settings', requireAdmin, (req, res) => {
+    const { gaMeasurementId, gaEnabled } = req.body;
+    try {
+      const saved = saveAnalyticsSettings({ gaMeasurementId, gaEnabled });
       res.json({ success: true, settings: saved });
     } catch (err) {
       res.status(400).json({ error: err.message });

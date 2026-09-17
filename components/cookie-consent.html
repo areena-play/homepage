@@ -1,0 +1,78 @@
+<!-- Reusable Cookie Consent Banner & Modal Component -->
+<div id="cookie-consent-container" aria-live="polite">
+  <!-- Floating Consent Banner -->
+  <div id="cookie-banner" class="cookie-banner" style="display: none;">
+    <div class="cookie-banner-content">
+      <div class="cookie-banner-text">
+        <div class="cookie-title">
+          <span style="font-size: 1.25rem;">🍪</span>
+          <strong data-i18n="cookieConsent.bannerTitle">Cookie &amp; Privacy Preferences</strong>
+        </div>
+        <p data-i18n="cookieConsent.bannerDesc">
+          We use strictly necessary cookies to ensure platform reliability and security. With your consent, we also use analytical cookies (Google Analytics) to measure and improve user experience.
+        </p>
+      </div>
+      <div class="cookie-banner-actions">
+        <button id="cookie-customize-btn" type="button" class="btn btn-secondary btn-sm" data-i18n="cookieConsent.customize">
+          Preferences
+        </button>
+        <button id="cookie-decline-btn" type="button" class="btn btn-secondary btn-sm" data-i18n="cookieConsent.decline">
+          Decline
+        </button>
+        <button id="cookie-accept-all-btn" type="button" class="btn btn-primary btn-sm" data-i18n="cookieConsent.acceptAll">
+          Accept All
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cookie Customization Modal -->
+  <div id="cookie-modal" class="cookie-modal-backdrop" style="display: none;">
+    <div class="cookie-modal-card" role="dialog" aria-modal="true" aria-labelledby="cookie-modal-title">
+      <div class="cookie-modal-header">
+        <h3 id="cookie-modal-title" data-i18n="cookieConsent.modalTitle">Cookie Preferences</h3>
+        <button id="cookie-modal-close" type="button" class="cookie-close-btn" aria-label="Close">✕</button>
+      </div>
+      <div class="cookie-modal-body">
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;" data-i18n="cookieConsent.modalDesc">
+          Customize which cookies you wish to allow. Strictly necessary cookies cannot be disabled as they are required for basic site operations.
+        </p>
+
+        <!-- Category 1: Strictly Necessary -->
+        <div class="cookie-category-card">
+          <div class="cookie-category-header">
+            <div>
+              <strong data-i18n="cookieConsent.catEssentialTitle">Strictly Necessary Cookies</strong>
+              <span class="cookie-badge-always" data-i18n="cookieConsent.alwaysActive">Always Active</span>
+            </div>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem;" data-i18n="cookieConsent.catEssentialDesc">
+            Essential for security, theme preferences, multilingual routing, and session authentication.
+          </p>
+        </div>
+
+        <!-- Category 2: Analytics & Performance -->
+        <div class="cookie-category-card">
+          <div class="cookie-category-header">
+            <div>
+              <strong data-i18n="cookieConsent.catAnalyticsTitle">Analytics &amp; Performance (Google Analytics)</strong>
+            </div>
+            <label class="switch" aria-label="Toggle Analytics Cookies">
+              <input type="checkbox" id="cookie-analytics-checkbox">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem;" data-i18n="cookieConsent.catAnalyticsDesc">
+            Helps us understand how visitors interact with AREENA using anonymized telemetry. If disabled, no analytics data or tracking cookies are collected.
+          </p>
+        </div>
+      </div>
+      <div class="cookie-modal-footer">
+        <button id="cookie-save-preferences-btn" type="button" class="btn btn-primary" style="width: 100%;" data-i18n="cookieConsent.savePreferences">
+          Save Preferences
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

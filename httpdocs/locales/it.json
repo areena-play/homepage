@@ -376,7 +376,23 @@
     "tagline": "La piattaforma digitale unificata per federazioni sportive e club moderni.",
     "quickLinks": "Link Rapidi",
     "legal": "Note Legali & Link Esterni",
+    "cookieSettings": "Impostazioni cookie",
     "copyright": "© 2026 AREENA. Tutti i diritti riservati."
+  },
+  "cookieConsent": {
+    "bannerTitle": "Preferenze Cookie & Privacy",
+    "bannerDesc": "Utilizziamo cookie strettamente necessari per garantire l'affidabilità e la sicurezza della piattaforma. Con il tuo consenso, utilizziamo anche cookie di analisi (Google Analytics) per migliorare l'esperienza utente.",
+    "customize": "Preferenze",
+    "decline": "Rifiuta",
+    "acceptAll": "Accetta tutti",
+    "modalTitle": "Preferenze Cookie",
+    "modalDesc": "Personalizza i cookie che desideri autorizzare. I cookie strettamente necessari non possono essere disattivati in quanto indispensabili per il funzionamento del sito.",
+    "catEssentialTitle": "Cookie Strettamente Necessari",
+    "catEssentialDesc": "Essenziali per la sicurezza, le preferenze del tema, la navigazione multilingue e l'autenticazione delle sessioni.",
+    "alwaysActive": "Sempre attivo",
+    "catAnalyticsTitle": "Analisi & Prestazioni (Google Analytics)",
+    "catAnalyticsDesc": "Ci aiuta a capire come viene utilizzata AREENA tramite telemetria anonimizzata. Se disattivato, non viene raccolto alcun dato di analisi o cookie di tracciamento.",
+    "savePreferences": "Salva preferenze"
   },
   "notFound": {
     "title": "404 — Pagina Non Trovata",

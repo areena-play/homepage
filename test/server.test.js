@@ -435,6 +435,58 @@ async function runTests() {
     assert.strictEqual(resetLoginRes.statusCode, 200);
     console.log('  ✅ Password Forgot & Reset flow verified (token generation, token validation, password update, auto-login)');
 
+    // 17. Google Analytics Settings API & Status Telemetry
+    const analyticsGetRes = await makeRequest('/api/admin/analytics-settings', {
+      headers: { Cookie: resetSessionCookie }
+    });
+    assert.strictEqual(analyticsGetRes.statusCode, 200);
+    assert.strictEqual(analyticsGetRes.json().gaEnabled, false);
+
+    const analyticsSaveRes = await makeRequest('/api/admin/analytics-settings', {
+      method: 'POST',
+      headers: { Cookie: resetSessionCookie },
+      body: JSON.stringify({
+        gaMeasurementId: 'G-TEST999XYZ',
+        gaEnabled: true
+      })
+    });
+    assert.strictEqual(analyticsSaveRes.statusCode, 200);
+    assert.strictEqual(analyticsSaveRes.json().success, true);
+    assert.strictEqual(analyticsSaveRes.json().settings.gaMeasurementId, 'G-TEST999XYZ');
+    assert.strictEqual(analyticsSaveRes.json().settings.gaEnabled, true);
+
+    // Verify /api/status exposes the analytics settings correctly
+    const statusAnalyticsRes = await makeRequest('/api/status');
+    assert.strictEqual(statusAnalyticsRes.statusCode, 200);
+    const statusData = statusAnalyticsRes.json();
+    assert.ok(statusData.analytics, 'status should include analytics object');
+    assert.strictEqual(statusData.analytics.gaMeasurementId, 'G-TEST999XYZ');
+    assert.strictEqual(statusData.analytics.gaEnabled, true);
+
+    // Verify public pages include cookie banner and analytics.js
+    const homeHtmlRes = await makeRequest('/');
+    assert.strictEqual(homeHtmlRes.statusCode, 200);
+    assert.ok(homeHtmlRes.data.includes('id="cookie-banner"'), 'Homepage should contain cookie banner');
+    assert.ok(homeHtmlRes.data.includes('/js/analytics.js'), 'Homepage should load analytics.js');
+
+    const privacyHtmlRes = await makeRequest('/privacy-policy');
+    assert.strictEqual(privacyHtmlRes.statusCode, 200);
+    assert.ok(privacyHtmlRes.data.includes('id="cookie-banner"'), 'Privacy policy page should contain cookie banner');
+    assert.ok(privacyHtmlRes.data.includes('open-cookie-settings'), 'Privacy policy should have cookie preferences link');
+
+    // Verify locale files all contain cookieConsent structure
+    ['en', 'de', 'fr', 'it'].forEach(lang => {
+      const locPath = path.join(__dirname, '..', 'httpdocs', 'locales', `${lang}.json`);
+      assert.ok(fs.existsSync(locPath), `Locale ${lang}.json must exist`);
+      const loc = JSON.parse(fs.readFileSync(locPath, 'utf8'));
+      assert.ok(loc.cookieConsent, `Locale ${lang}.json must have cookieConsent object`);
+      assert.ok(loc.cookieConsent.bannerTitle, `Locale ${lang}.json missing cookieConsent.bannerTitle`);
+      assert.ok(loc.cookieConsent.acceptAll, `Locale ${lang}.json missing cookieConsent.acceptAll`);
+      assert.ok(loc.cookieConsent.decline, `Locale ${lang}.json missing cookieConsent.decline`);
+      assert.ok(loc.footer && loc.footer.cookieSettings, `Locale ${lang}.json missing footer.cookieSettings`);
+    });
+    console.log('  ✅ Google Analytics admin API, public status telemetry, cookie banner injection, and i18n validated');
+
     console.log('\n✨ All test suites passed successfully!\n');
     server.close(() => {
       try {

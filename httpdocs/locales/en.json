@@ -376,7 +376,23 @@
     "tagline": "The unified digital platform for modern sports associations and federations.",
     "quickLinks": "Quick Links",
     "legal": "Legal & External",
+    "cookieSettings": "Cookie Settings",
     "copyright": "© 2026 AREENA. All rights reserved."
+  },
+  "cookieConsent": {
+    "bannerTitle": "Cookie & Privacy Preferences",
+    "bannerDesc": "We use strictly necessary cookies to ensure platform reliability and security. With your consent, we also use analytical cookies (Google Analytics) to measure and improve user experience.",
+    "customize": "Preferences",
+    "decline": "Decline",
+    "acceptAll": "Accept All",
+    "modalTitle": "Cookie Preferences",
+    "modalDesc": "Customize which cookies you wish to allow. Strictly necessary cookies cannot be disabled as they are required for basic site operations.",
+    "catEssentialTitle": "Strictly Necessary Cookies",
+    "catEssentialDesc": "Essential for security, theme preferences, multilingual routing, and session authentication.",
+    "alwaysActive": "Always Active",
+    "catAnalyticsTitle": "Analytics & Performance (Google Analytics)",
+    "catAnalyticsDesc": "Helps us understand how visitors interact with AREENA using anonymized telemetry. If disabled, no analytics data or tracking cookies are collected.",
+    "savePreferences": "Save Preferences"
   },
   "notFound": {
     "title": "404 — Page Not Found",
