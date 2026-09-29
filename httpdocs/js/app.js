@@ -294,6 +294,98 @@ document.addEventListener('DOMContentLoaded', async () => {
           }
         }
       }
+
+      // 3. Social Media Links Dynamic Rendering
+      if (statusData.socialLinks) {
+        const { instagramUrl, linkedinUrl } = statusData.socialLinks;
+        const hasSocial = Boolean(instagramUrl || linkedinUrl);
+
+        const renderPill = (platform, url) => {
+          if (!url) return '';
+          if (platform === 'instagram') {
+            return `
+              <a href="${url}" target="_blank" rel="noopener noreferrer" class="social-pill social-pill-instagram" aria-label="Follow AREENA on Instagram">
+                <svg class="social-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+                <span>Instagram</span>
+              </a>
+            `;
+          }
+          if (platform === 'linkedin') {
+            return `
+              <a href="${url}" target="_blank" rel="noopener noreferrer" class="social-pill social-pill-linkedin" aria-label="Connect with AREENA on LinkedIn">
+                <svg class="social-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.63 1.63 0 0 0-1.63 1.63c0 .9.73 1.63 1.63 1.63.9 0 1.63-.73 1.63-1.63 0-.9-.73-1.63-1.63-1.63Z"/>
+                </svg>
+                <span>LinkedIn</span>
+              </a>
+            `;
+          }
+          return '';
+        };
+
+        const renderIconBtn = (platform, url) => {
+          if (!url) return '';
+          if (platform === 'instagram') {
+            return `
+              <a href="${url}" target="_blank" rel="noopener noreferrer" class="social-icon-btn social-icon-instagram" aria-label="AREENA on Instagram" title="Instagram">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+            `;
+          }
+          if (platform === 'linkedin') {
+            return `
+              <a href="${url}" target="_blank" rel="noopener noreferrer" class="social-icon-btn social-icon-linkedin" aria-label="AREENA on LinkedIn" title="LinkedIn">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.63 1.63 0 0 0-1.63 1.63c0 .9.73 1.63 1.63 1.63.9 0 1.63-.73 1.63-1.63 0-.9-.73-1.63-1.63-1.63Z"/>
+                </svg>
+              </a>
+            `;
+          }
+          return '';
+        };
+
+        // 1. Hero Social Links
+        const heroSocial = document.getElementById('hero-social-links');
+        if (heroSocial) {
+          if (hasSocial) {
+            heroSocial.innerHTML = renderPill('instagram', instagramUrl) + renderPill('linkedin', linkedinUrl);
+            heroSocial.style.display = 'flex';
+          } else {
+            heroSocial.style.display = 'none';
+          }
+        }
+
+        // 2. Contact Card Social Media Section
+        const contactSocialItem = document.getElementById('contact-social-item');
+        const contactSocialPills = document.getElementById('contact-social-pills');
+        if (contactSocialItem && contactSocialPills) {
+          if (hasSocial) {
+            contactSocialPills.innerHTML = renderPill('instagram', instagramUrl) + renderPill('linkedin', linkedinUrl);
+            contactSocialItem.style.display = 'flex';
+          } else {
+            contactSocialItem.style.display = 'none';
+          }
+        }
+
+        // 3. Footer Social Links
+        const footerSocial = document.getElementById('footer-social-links');
+        if (footerSocial) {
+          if (hasSocial) {
+            footerSocial.innerHTML = renderIconBtn('instagram', instagramUrl) + renderIconBtn('linkedin', linkedinUrl);
+            footerSocial.style.display = 'flex';
+          } else {
+            footerSocial.style.display = 'none';
+          }
+        }
+      }
     }
   } catch (e) {}
 });

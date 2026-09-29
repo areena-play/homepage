@@ -22,6 +22,8 @@ const {
   saveTurnstileSettings,
   getAnalyticsSettings,
   saveAnalyticsSettings,
+  getSocialSettings,
+  saveSocialSettings,
   changeUserPassword,
   createPasswordResetToken,
   resetPasswordWithToken
@@ -85,6 +87,7 @@ function createServer(options = {}) {
     const showStatus = getShowStatusSection();
     const { turnstileSiteKey } = getTurnstileSettings();
     const { gaMeasurementId, gaEnabled } = getAnalyticsSettings();
+    const socialLinks = getSocialSettings();
 
     res.json({
       needsSetup: setupNeeded,
@@ -95,6 +98,7 @@ function createServer(options = {}) {
         gaMeasurementId: gaEnabled ? gaMeasurementId : '',
         gaEnabled: !!gaEnabled
       },
+      socialLinks,
       isAuthenticated: !!req.user,
       user: req.user ? { id: req.user.id, username: req.user.username, email: req.user.email } : null
     });
@@ -407,6 +411,23 @@ function createServer(options = {}) {
     const { gaMeasurementId, gaEnabled } = req.body;
     try {
       const saved = saveAnalyticsSettings({ gaMeasurementId, gaEnabled });
+      res.json({ success: true, settings: saved });
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  // Admin: Get Social Media Settings
+  app.get('/api/admin/social-settings', requireAdmin, (req, res) => {
+    const settings = getSocialSettings();
+    res.json(settings);
+  });
+
+  // Admin: Save Social Media Settings
+  app.post('/api/admin/social-settings', requireAdmin, (req, res) => {
+    const { instagramUrl, linkedinUrl } = req.body;
+    try {
+      const saved = saveSocialSettings({ instagramUrl, linkedinUrl });
       res.json({ success: true, settings: saved });
     } catch (err) {
       res.status(400).json({ error: err.message });

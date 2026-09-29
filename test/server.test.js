@@ -485,7 +485,49 @@ async function runTests() {
       assert.ok(loc.cookieConsent.decline, `Locale ${lang}.json missing cookieConsent.decline`);
       assert.ok(loc.footer && loc.footer.cookieSettings, `Locale ${lang}.json missing footer.cookieSettings`);
     });
-    console.log('  ✅ Google Analytics admin API, public status telemetry, cookie banner injection, and i18n validated');
+    // 18. Social Media Links Settings API & Rendering Tests
+    const unauthSocialRes = await makeRequest('/api/admin/social-settings');
+    assert.strictEqual(unauthSocialRes.statusCode, 401, 'Unauthenticated social settings request must return 401');
+
+    const socialGetRes = await makeRequest('/api/admin/social-settings', {
+      headers: { Cookie: resetSessionCookie }
+    });
+    assert.strictEqual(socialGetRes.statusCode, 200);
+    assert.deepStrictEqual(socialGetRes.json(), { instagramUrl: '', linkedinUrl: '' });
+
+    const socialSaveRes = await makeRequest('/api/admin/social-settings', {
+      method: 'POST',
+      headers: { Cookie: resetSessionCookie },
+      body: JSON.stringify({
+        instagramUrl: 'https://instagram.com/areena.ch',
+        linkedinUrl: 'https://linkedin.com/company/areena-sports'
+      })
+    });
+    assert.strictEqual(socialSaveRes.statusCode, 200);
+    assert.strictEqual(socialSaveRes.json().success, true);
+    assert.strictEqual(socialSaveRes.json().settings.instagramUrl, 'https://instagram.com/areena.ch');
+    assert.strictEqual(socialSaveRes.json().settings.linkedinUrl, 'https://linkedin.com/company/areena-sports');
+
+    // Verify /api/status exposes the social links
+    const statusWithSocial = await makeRequest('/api/status');
+    assert.strictEqual(statusWithSocial.statusCode, 200);
+    assert.ok(statusWithSocial.json().socialLinks, 'Status endpoint must include socialLinks');
+    assert.strictEqual(statusWithSocial.json().socialLinks.instagramUrl, 'https://instagram.com/areena.ch');
+    assert.strictEqual(statusWithSocial.json().socialLinks.linkedinUrl, 'https://linkedin.com/company/areena-sports');
+
+    // Verify admin page has social media configuration form
+    const adminHtmlRes = await makeRequest('/admin');
+    assert.strictEqual(adminHtmlRes.statusCode, 200);
+    assert.ok(adminHtmlRes.data.includes('id="social-settings-form"'), 'Admin HTML must contain social-settings-form');
+    assert.ok(adminHtmlRes.data.includes('id="social-instagram"'), 'Admin HTML must contain social-instagram input');
+    assert.ok(adminHtmlRes.data.includes('id="social-linkedin"'), 'Admin HTML must contain social-linkedin input');
+
+    // Verify homepage contains social link containers
+    assert.ok(homeHtmlRes.data.includes('id="hero-social-links"'), 'Homepage must have hero-social-links container');
+    assert.ok(homeHtmlRes.data.includes('id="contact-social-item"'), 'Homepage must have contact-social-item container');
+    assert.ok(homeHtmlRes.data.includes('id="footer-social-links"'), 'Footer must have footer-social-links container');
+
+    console.log('  ✅ Social Media Links admin API, status endpoint, and homepage UI integration validated');
 
     console.log('\n✨ All test suites passed successfully!\n');
     server.close(() => {

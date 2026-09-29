@@ -12,6 +12,9 @@ A clean, modern, and multilingual static homepage package for **AREENA** with an
   - **First-Visit Onboarding**: Automatically prompts to set up the primary admin account on first launch.
   - **Admin Control Panel (`/admin`)**: Create/manage other admin logins and view administrative telemetry.
   - Closed registration: only existing administrators can create additional admin logins.
+- 🌐 **Social Media Links Management**:
+  - Configure official Instagram and LinkedIn profile URLs in the admin dashboard.
+  - Dynamically displays interactive social badges in the hero section, direct contact channels, and footer.
 - 🚧 **Maintenance Mode Toggle**:
   - Live toggle in the admin control panel.
   - When enabled, all public visitors are greeted with a dedicated maintenance page featuring the AREENA logo and status notice.
@@ -101,4 +104,4 @@ areena-homepage/
 
 ## 📄 License
 
-MIT © [AREENA Team](https://areena.play)
+MIT © [AREENA Team](https://areena.ch)

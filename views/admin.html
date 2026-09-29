@@ -544,6 +544,49 @@
         </form>
       </div>
 
+      <!-- Social Media Links Section -->
+      <div class="admin-card">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+          <div>
+            <h2 style="font-size: 1.4rem; margin-bottom: 0.25rem;">🌐 Social Media Links</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+              Configure official social media profile URLs (Instagram, LinkedIn) to display on the public homepage and footer.
+            </p>
+          </div>
+        </div>
+
+        <form id="social-settings-form">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="social-instagram">
+                <span style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #E1306C;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                  Instagram URL
+                </span>
+              </label>
+              <input type="url" id="social-instagram" class="form-control" placeholder="https://instagram.com/areena.ch">
+              <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 0.25rem;">Full profile URL (leave empty to hide)</small>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="social-linkedin">
+                <span style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #0A66C2;"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                  LinkedIn URL
+                </span>
+              </label>
+              <input type="url" id="social-linkedin" class="form-control" placeholder="https://linkedin.com/company/areena">
+              <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 0.25rem;">Full company/profile URL (leave empty to hide)</small>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+            <button type="submit" class="btn btn-primary" style="padding: 0.65rem 1.5rem; font-size: 0.9rem;">
+              Save Social Media Links
+            </button>
+          </div>
+        </form>
+      </div>
+
       <!-- Admin Users Section -->
       <div class="admin-card">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
@@ -773,7 +816,45 @@
         document.getElementById('admin-user-display').textContent = data.user?.username || 'Admin';
         updateMaintenanceUI(data.maintenanceMode);
         updateStatusSectionUI(data.showStatusSection !== false);
-        await Promise.all([loadAdminUsers(), loadEmailSettings(), loadTurnstileSettings(), loadAnalyticsSettings()]);
+        await Promise.all([loadAdminUsers(), loadEmailSettings(), loadTurnstileSettings(), loadAnalyticsSettings(), loadSocialSettings()]);
+      }
+
+      async function loadSocialSettings() {
+        try {
+          const res = await fetch('/api/admin/social-settings');
+          if (!res.ok) return;
+          const settings = await res.json();
+          document.getElementById('social-instagram').value = settings.instagramUrl || '';
+          document.getElementById('social-linkedin').value = settings.linkedinUrl || '';
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      // Social Settings Submit
+      const socialSettingsForm = document.getElementById('social-settings-form');
+      if (socialSettingsForm) {
+        socialSettingsForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const instagramUrl = document.getElementById('social-instagram').value;
+          const linkedinUrl = document.getElementById('social-linkedin').value;
+
+          try {
+            const res = await fetch('/api/admin/social-settings', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ instagramUrl, linkedinUrl })
+            });
+            const result = await res.json();
+            if (res.ok) {
+              showToast('dashboard-toast', 'Social media links saved successfully.');
+            } else {
+              showToast('dashboard-error', result.error || 'Failed to save social media links.');
+            }
+          } catch (err) {
+            showToast('dashboard-error', 'Network error.');
+          }
+        });
       }
 
       async function loadAnalyticsSettings() {
